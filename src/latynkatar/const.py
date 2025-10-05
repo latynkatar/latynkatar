@@ -18,6 +18,41 @@ You should have received a copy of the GNU Lesser General Public License v3
 :copyright: (c) 2025 Łatynkatar group: https://github.com/latynkatar
 """
 
+KIRYLICZNY_ALFABET = [
+    "а",
+    "б",
+    "в",
+    "г",
+    "ґ",
+    "д",
+    "е",
+    "ё",
+    "ж",
+    "з",
+    "і",
+    "й",
+    "к",
+    "л",
+    "м",
+    "н",
+    "о",
+    "п",
+    "р",
+    "с",
+    "т",
+    "у",
+    "ў",
+    "ф",
+    "х",
+    "ц",
+    "ч",
+    "ш",
+    "ы",
+    "ь",
+    "э",
+    "ю",
+    "я",
+]
 HALOSNYJA = ("а", "е", "ё", "і", "у", "ы", "э", "ю", "я")
 MOHUC_PAZNACZACCA_JAK_MIAKKIJA = {
     "н": ("n", "ń"),
@@ -50,8 +85,8 @@ PRAVILY_KANVERTACYJ = {
     "ш": "š",
     "х": "ch",
 }
-KLASICZNYJA_PRAWILY_KANVERTACYJI = dict(PRAVILY_KANVERTACYJ)
-KLASICZNYJA_PRAWILY_KANVERTACYJI.update(
+STARYJA_PRAWILY_KANVERTACYJI = dict(PRAVILY_KANVERTACYJ)
+STARYJA_PRAWILY_KANVERTACYJI.update(
     {
         "ч": "cz",
         "ш": "sz",

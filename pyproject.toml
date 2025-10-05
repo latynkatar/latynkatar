@@ -9,7 +9,7 @@ description = """EN: Simple and small package to convert belarussian cyrillic te
 
 BE: Просты і невялікі пакет для канвертацыі беларускай кірыліцы ў сучасную (з ž, č, š і v) і класічную (з ż, cz, sz і w) лацінку."""
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
