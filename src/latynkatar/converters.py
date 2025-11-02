@@ -15,22 +15,25 @@ in the repo, see <https://github.com/measles/latynkatar/blob/main/LICENSE>.
 You should have received a copy of the GNU Lesser General Public License v3
 (LGPLv3) along with Łatynkatar. If not, see <https://www.gnu.org/licenses/>.
 
-:copyright: (c) (c) 2025 Łatynkatar group: https://github.com/latynkatar
+:copyright: (c) 2025 Łatynkatar group: https://github.com/latynkatar
 """
 
 from .const import (
-    HALOSNYJA,
     JOTAWANYJA_LITARY,
     KIRYLICZNY_ALFABET,
     MOHUC_PAZNACZACCA_JAK_MIAKKIJA,
     PRAVILY_KANVERTACYJ,
     STARYJA_PRAWILY_KANVERTACYJI,
-    ZYCZNYJA_Z_TRANZITAM,
 )
+from .utils import cyr_to_lat as utils
 
 
 class CyrLatConverter:  # pylint: disable=too-few-public-methods, too-many-instance-attributes
-    """Kłasa kab kanvertavać kiryličny tekst da łacinki."""
+    """Класа-канвертар для пераводу кірыліцы ў лацінку.
+
+    :param text: Тэкст які мусіць быць сканвертаваны.
+    :type text: str
+    """
 
     def __init__(self, text: str):
         self._text = text
@@ -43,12 +46,14 @@ class CyrLatConverter:  # pylint: disable=too-few-public-methods, too-many-insta
         self._index: int
 
     def convert(self, old_rules: bool = False, palatalization: bool = False) -> str:
-        """Biezpasredna vykonvaje kanvertacyju tekstu.
+        """Канвертуе тэкст.
 
-        :param old_rules: Ci treba užyvać staryja praviły (z cz, sz i da t.p.)
+        :param old_rules: Ці трэба ўжываць старыя правілы (з cz, sz і падобнага)
         :type old_rules: bool
-        :param palatalization: Ci paznaczać tranzityŭnuju miakkaść
+        :param palatalization: Ці пазначаць транзіт мяккасці
         :type palatalization: bool
+        :return: Сканвертаваны тэкст
+        :rtype: str
         """
         converted_text = ""
         self._old_rules = old_rules
@@ -73,18 +78,29 @@ class CyrLatConverter:  # pylint: disable=too-few-public-methods, too-many-insta
         return converted_text
 
     def _convert_letter(self) -> str:
-        """Kanviertuje adzin simvał u adpavednyja simvały łacinki."""
+        """Канвертаваць адну асобную літару ў адпаведныя сімвалы лацінкі.
+
+        :return: Вынік канвертацыі літары
+        :rtype: str
+        """
         lowercase_letter = self._symbol.lower()
         converted_letter = ""
         match lowercase_letter:
             case letter if letter in self._pravily_kanvertacyi:
                 converted_letter = self._pravily_kanvertacyi[lowercase_letter]
             case letter if letter in MOHUC_PAZNACZACCA_JAK_MIAKKIJA:
-                converted_letter = self._miakkuja_zycznyja()
+                converted_letter = utils.kanvertavac_miakkija_zycznyja(
+                    simval=self._symbol,
+                    nastupny_simval=self._next_symbol,
+                    druhi_nastupny=self._second_next_symbol,
+                    miakkasc=self._palatalization,
+                )
             case letter if letter in ["'", "ь"]:
                 pass
             case letter if letter in JOTAWANYJA_LITARY:
-                converted_letter = self._kanvertavac_z_j()
+                converted_letter = utils.kanvertavac_jotavanyja(
+                    self._symbol, self._previos_letters
+                )
 
         return (
             converted_letter
@@ -92,93 +108,29 @@ class CyrLatConverter:  # pylint: disable=too-few-public-methods, too-many-insta
             else converted_letter.capitalize()
         )
 
-    def _ci_patrabuje_adlustravannia_tranzityunaj_miakkasci(self) -> bool:
-        """Правярае, ці патрабуе пазіцыя зычнай адлюстравання транзітыўнай мяккасці.
-        Returns:
-            bool: True, калі патрабуе
-        """
-        return self._next_symbol.lower() in ZYCZNYJA_Z_TRANZITAM and (
-            self._second_next_symbol.lower() in JOTAWANYJA_LITARY
-            or self._second_next_symbol.lower() == "ь"
-        )
-
-    def _ci_patrabuje_j(self) -> bool:
-        """Спраўджае, ці патрэбная пры канвертацыі ётаваных j.
-        Returns:
-            bool: True, калі патрабуе
-        """
-        return (
-            not self._previos_letters
-            or self._previos_letters[-1].lower() in HALOSNYJA
-            or self._previos_letters[-1].lower() in ("'", "ь")
-        )
-
-    def _kanvertavac_z_j(self) -> str:
-        """Канвертуе ў лацінку літары з j/i: і, е, ё, ю, я.
-        Returns:
-            str: Сканвертаваную да лацінкі літару. Вынікам часцяком можа быць
-                некалькі літар.
-        """
-        if self._ci_patrabuje_j() and self._symbol.lower() != "і":
-            base = "j"
-        else:
-            base = "i"
-
-        second_letter = JOTAWANYJA_LITARY[self._symbol.lower()]
-        if (
-            self._symbol.lower() != "і"
-            and self._previos_letters
-            and self._previos_letters[-1].lower() == "л"
-        ):
-            base = ""
-
-        converted_letter = base + second_letter
-
-        return converted_letter
-
-    def _miakkuja_zycznyja(self) -> str:
-        """Канвертуе да лацінкі зычныя, якія могуць быць мяккімі.
-
-        Returns:
-            str: вынік канвертацыі
-        """
-        hard, soft = MOHUC_PAZNACZACCA_JAK_MIAKKIJA[self._symbol.lower()]
-        converted_letter = ""
-        if self._next_symbol.lower() == "ь":
-            converted_letter = soft
-        elif (
-            self._symbol.lower() == "л"
-            and self._next_symbol.lower() in JOTAWANYJA_LITARY
-        ):
-            converted_letter = soft
-        elif self._symbol.lower() == self._next_symbol.lower() == "л" and (
-            self._second_next_symbol.lower() in JOTAWANYJA_LITARY
-            or self._second_next_symbol.lower() == "ь"
-        ):
-            converted_letter = soft
-        elif (
-            self._palatalization
-            and self._ci_patrabuje_adlustravannia_tranzityunaj_miakkasci()
-        ):
-            if self._symbol.lower() != "н" or (
-                self._symbol.lower() == "н" == self._next_symbol.lower()
-            ):
-                converted_letter = soft
-            else:
-                converted_letter = hard
-        else:
-            converted_letter = hard
-
-        return converted_letter
-
     @property
     def _symbol(self) -> str:
+        """Бягучы сімвал у часе канвертацыі.
+
+        :return: Бягучы сімвал
+        :rtype: str
+        """
         return self._text[self._index]
 
     @property
     def _next_symbol(self) -> str:
+        """Наступны симвал.
+
+        :return: Вяртае наступны сімвал, альбо пусты радок, калі наступны сімвал не існуе
+        :rtype: str
+        """
         return self._text[self._index + 1] if self._index < self._len - 1 else ""
 
     @property
     def _second_next_symbol(self) -> str:
+        """Сімвал праз адзін наперад ад бягучага.
+
+        :return: Вяртае другі наступны сімвал ад бягучага, альбо пусты радок, калі той сімвал не існуе
+        :rtype: str
+        """
         return self._text[self._index + 2] if self._index < self._len - 2 else ""

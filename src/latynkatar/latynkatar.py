@@ -15,7 +15,7 @@ in the repo, see <https://github.com/measles/latynkatar/blob/main/LICENSE>.
 You should have received a copy of the GNU Lesser General Public License v3
 (LGPLv3) along with Łatynkatar. If not, see <https://www.gnu.org/licenses/>.
 
-:copyright: (c) (c) 2025 Łatynkatar group: https://github.com/latynkatar
+:copyright: (c) 2025 Łatynkatar group: https://github.com/latynkatar
 """
 
 from .converters import CyrLatConverter
@@ -25,14 +25,12 @@ def convert(text: str, miakkasc: bool = True) -> str:
     """Канвертуе з кірыліцы да сучаснай ("чэшскай") лацінкі. Усе літары і знакі, які не могуць
         лічыцца беларускай кірыліцай захоўваюцца без зменаў.
 
-
-    Args:
-        text (str): Тэкст які мусіць быць сканвертаваны
-        miakkasc (bool, optional): Ці пазначаць транзітыўную мяккасць.
-            Па змоўчванню True.
-
-    Returns:
-        str: Вынік канвертацыі
+    :param text: Тэкст які мусіць быць сканвертаваны
+    :type text: str
+    :param Ці пазначаць транзітыўную мяккасць, defaults to True
+    :type miakkasc: bool, optional
+    :return: Сканвертаваны ў лацінку тэкст
+    :rtype: str
     """
     return CyrLatConverter(text=text).convert(old_rules=False, palatalization=miakkasc)
 
@@ -41,13 +39,12 @@ def convert_old(text: str, miakkasc: bool = True) -> str:
     """Канвертуе з кірыліцы да старой ("польскай") лацінкі. Усе літары і знакі, які не могуць
         лічыцца беларускай кірыліцай захоўваюцца без зменаў.
 
-
-    Args:
-        text (str): Тэкст, які мусіць быць сканвертаваны.
-        miakkasc (bool, optional): Ці пазначаць транзітыўную мяккасць.
-            Па змоўчваннб True.
-
-    Returns:
-        str: Вынік канвертацыі
+    :param text: Тэкст, які мусіць быць сканвертаваны.
+    :type text: str
+    :param miakkasc: Ці пазначаць транзітыўную мяккасць, defaults to True
+    :type miakkasc: bool, optional
+    :return: Вынік канвертацыі
+    :rtype: str
     """
+
     return CyrLatConverter(text=text).convert(old_rules=True, palatalization=miakkasc)
