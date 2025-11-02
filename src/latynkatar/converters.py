@@ -57,27 +57,24 @@ class CyrLatConverter:  # pylint: disable=too-few-public-methods, too-many-insta
         )
         self._palatalization = palatalization
 
-        for index in range(len(self._text)):  # pylint: disable=consider-using-enumerate
-            self._index = index
-            if self._text[index].lower() in KIRYLICZNY_ALFABET or (
-                self._in_word_now and self._text[index] == "'"
+        for self._index in range(  # noqa: B020
+            len(self._text)
+        ):  # pylint: disable=consider-using-enumerate
+            if self._text[self._index].lower() in KIRYLICZNY_ALFABET or (
+                self._in_word_now and self._text[self._index] == "'"
             ):
                 self._in_word_now = True
+                converted_text += self._convert_letter()
+                self._previos_letters.append(self._text[self._index])
             else:
                 self._in_word_now = False
-
-            if self._in_word_now:
-                converted_text += self._convert_letter()
-                self._previos_letters.append(self._text[index])
-            else:
-                converted_text += self._text[index]
+                converted_text += self._text[self._index]
                 self._previos_letters = []
-
         return converted_text
 
     def _convert_letter(self) -> str:
         """Kanviertuje adzin simvał u adpavednyja simvały łacinki."""
-        lowercase_letter = self._text[self._index].lower()
+        lowercase_letter = self._symbol.lower()
         converted_letter = ""
         match lowercase_letter:
             case letter if letter in self._pravily_kanvertacyi:
@@ -91,7 +88,7 @@ class CyrLatConverter:  # pylint: disable=too-few-public-methods, too-many-insta
 
         return (
             converted_letter
-            if self._text[self._index].islower()
+            if self._symbol.islower()
             else converted_letter.capitalize()
         )
 
@@ -100,9 +97,9 @@ class CyrLatConverter:  # pylint: disable=too-few-public-methods, too-many-insta
         Returns:
             bool: True, калі патрабуе
         """
-        return self._text[self._index + 1].lower() in ZYCZNYJA_Z_TRANZITAM and (
-            self._text[self._index + 2].lower() in JOTAWANYJA_LITARY
-            or self._text[self._index + 2].lower() == "ь"
+        return self._next_symbol.lower() in ZYCZNYJA_Z_TRANZITAM and (
+            self._second_next_symbol.lower() in JOTAWANYJA_LITARY
+            or self._second_next_symbol.lower() == "ь"
         )
 
     def _ci_patrabuje_j(self) -> bool:
@@ -111,11 +108,9 @@ class CyrLatConverter:  # pylint: disable=too-few-public-methods, too-many-insta
             bool: True, калі патрабуе
         """
         return (
-            not self._text[self._index - 1]
-            or self._text[self._index - 1].lower() in HALOSNYJA
-            or not self._text[self._index - 1].isalpha()
-            or self._text[self._index - 1] == "'"
-            or self._text[self._index - 1] == "ь"
+            not self._previos_letters
+            or self._previos_letters[-1].lower() in HALOSNYJA
+            or self._previos_letters[-1].lower() in ("'", "ь")
         )
 
     def _kanvertavac_z_j(self) -> str:
@@ -124,16 +119,16 @@ class CyrLatConverter:  # pylint: disable=too-few-public-methods, too-many-insta
             str: Сканвертаваную да лацінкі літару. Вынікам часцяком можа быць
                 некалькі літар.
         """
-        if self._ci_patrabuje_j() and self._text[self._index].lower() != "і":
+        if self._ci_patrabuje_j() and self._symbol.lower() != "і":
             base = "j"
         else:
             base = "i"
 
-        second_letter = JOTAWANYJA_LITARY[self._text[self._index].lower()]
+        second_letter = JOTAWANYJA_LITARY[self._symbol.lower()]
         if (
-            self._text[self._index].lower() != "і"
-            and self._index > 1
-            and self._text[self._index - 1].lower() == "л"
+            self._symbol.lower() != "і"
+            and self._previos_letters
+            and self._previos_letters[-1].lower() == "л"
         ):
             base = ""
 
@@ -147,36 +142,26 @@ class CyrLatConverter:  # pylint: disable=too-few-public-methods, too-many-insta
         Returns:
             str: вынік канвертацыі
         """
-        hard, soft = MOHUC_PAZNACZACCA_JAK_MIAKKIJA[self._text[self._index].lower()]
+        hard, soft = MOHUC_PAZNACZACCA_JAK_MIAKKIJA[self._symbol.lower()]
         converted_letter = ""
-        if self._index < self._len - 1 and self._text[self._index + 1].lower() == "ь":
+        if self._next_symbol.lower() == "ь":
             converted_letter = soft
         elif (
-            self._index < self._len - 1
-            and self._text[self._index].lower() == "л"
-            and self._text[self._index + 1].lower() in JOTAWANYJA_LITARY
+            self._symbol.lower() == "л"
+            and self._next_symbol.lower() in JOTAWANYJA_LITARY
         ):
             converted_letter = soft
-        elif (
-            self._index < self._len - 2
-            and self._text[self._index].lower()
-            == self._text[self._index + 1].lower()
-            == "л"
-            and (
-                self._text[self._index + 2].lower() in JOTAWANYJA_LITARY
-                or self._text[self._index + 2].lower() == "ь"
-            )
+        elif self._symbol.lower() == self._next_symbol.lower() == "л" and (
+            self._second_next_symbol.lower() in JOTAWANYJA_LITARY
+            or self._second_next_symbol.lower() == "ь"
         ):
             converted_letter = soft
         elif (
             self._palatalization
-            and self._index < self._len - 2
             and self._ci_patrabuje_adlustravannia_tranzityunaj_miakkasci()
         ):
-            if self._text[self._index].lower() != "н" or (
-                self._text[self._index].lower()
-                == "н"
-                == self._text[self._index + 1].lower()
+            if self._symbol.lower() != "н" or (
+                self._symbol.lower() == "н" == self._next_symbol.lower()
             ):
                 converted_letter = soft
             else:
@@ -185,3 +170,15 @@ class CyrLatConverter:  # pylint: disable=too-few-public-methods, too-many-insta
             converted_letter = hard
 
         return converted_letter
+
+    @property
+    def _symbol(self) -> str:
+        return self._text[self._index]
+
+    @property
+    def _next_symbol(self) -> str:
+        return self._text[self._index + 1] if self._index < self._len - 1 else ""
+
+    @property
+    def _second_next_symbol(self) -> str:
+        return self._text[self._index + 2] if self._index < self._len - 2 else ""
