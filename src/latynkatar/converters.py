@@ -10,7 +10,7 @@ any later version.
 WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE. See the GNU Lesser General Public License v3 (LGPLv3) for
 more details. In file LICENSE which should came with a package, or look at it
-in the repo, see <https://github.com/measles/latynkatar/blob/main/LICENSE>.
+in the repo, see <https://github.com/latynkatar/latynkatar/blob/main/LICENSE>.
 
 You should have received a copy of the GNU Lesser General Public License v3
 (LGPLv3) along with Łatynkatar. If not, see <https://www.gnu.org/licenses/>.
