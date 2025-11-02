@@ -104,6 +104,7 @@ def pytest(session):
         "tests",
         "-lvv",
         "-ra",
+        "--log-cli-level=INFO",
         "--html=report.html",
         "--self-contained-html",
     )

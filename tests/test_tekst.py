@@ -145,7 +145,7 @@ def test_novaj_ziamloju():
     time_required = finish - start
 
     _LOGGER.info(
-        "Time stats:\n\tTest started at: '%f'\n\tFinished at: '%f', Convertation time: '%f'",
+        "Time stats:\n\tTest started at: '%f'\n\tFinished at: '%f'\n\t Convertation time: '%f'",
         start,
         finish,
         time_required,
@@ -163,7 +163,7 @@ def test_novaj_ziamloju_stary():
     time_required = finish - start
 
     _LOGGER.info(
-        "Time stats:\n\tTest started at: '%f'\n\tFinished at: '%f', Convertation time: '%f'",
+        "Time stats:\n\tTest started at: '%f'\n\tFinished at: '%f'\n\t Convertation time: '%f'",
         start,
         finish,
         time_required,
