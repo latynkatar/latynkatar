@@ -65,7 +65,9 @@ def test_miakki_znak():
 def test_miakkasci():
     """Тэст на перадачу транзітыўнай мякасці."""
     assert (
-        latynkatar.convert("снег смех поспех святы Валянцін жаданні пустазелле")
+        latynkatar.convert(
+            "снег смех поспех святы Валянцін жаданні пустазелле", miakkasc=True
+        )
         == "śnieh śmiech pośpiech śviaty Valancin žadańni pustazielle"
     )
 

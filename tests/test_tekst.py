@@ -1,15 +1,19 @@
 """Тэсты з сапраўднымі тэкстамі."""
 
 # pylint: disable=non-ascii-name
-
-# Try to import from module, else import from the source code
+import os
+from logging import getLogger
 from time import monotonic
 
+# Try to import from module, else import from the source code
 try:
     import latynkatar
 except ModuleNotFoundError:
     from src import latynkatar
 
+
+_LOGGER = getLogger(__name__)
+_CZAKANY_CZAS_NA_NOVUJU_ZIAMLU = 0.6 if os.getenv("CI") else 0.3
 
 # Узор узяты з часопіса PAMYŁKA:
 # https://github.com/PAMYLKA-ZIN/pamylka-number-3/tree/main/PAMYLKA_ZIN_3_FOR_SHARING
@@ -140,9 +144,14 @@ def test_novaj_ziamloju():
 
     time_required = finish - start
 
-    print(start, finish, time_required)
+    _LOGGER.info(
+        "Time stats:\n\tTest started at: '%f'\n\tFinished at: '%f', Convertation time: '%f'",
+        start,
+        finish,
+        time_required,
+    )
 
-    assert time_required < 0.4
+    assert time_required < _CZAKANY_CZAS_NA_NOVUJU_ZIAMLU
 
 
 def test_novaj_ziamloju_stary():
@@ -153,6 +162,11 @@ def test_novaj_ziamloju_stary():
 
     time_required = finish - start
 
-    print(start, finish, time_required)
+    _LOGGER.info(
+        "Time stats:\n\tTest started at: '%f'\n\tFinished at: '%f', Convertation time: '%f'",
+        start,
+        finish,
+        time_required,
+    )
 
-    assert time_required < 0.4
+    assert time_required < _CZAKANY_CZAS_NA_NOVUJU_ZIAMLU
