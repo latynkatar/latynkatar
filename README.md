@@ -12,7 +12,7 @@ Latynkatar [ёсць у PyPI](https://pypi.org/project/latynkatar/).
 $ python -m pip install latynkatar
 ```
 
-Не правяралася і не гарантуецца праца з **Python** да версіі **3.9**.
+Не правяралася і не гарантуецца праца з **Python** да версіі **3.10**.
 
 ## Ужыванне
 
