@@ -1,0 +1,24 @@
+default_install_hook_types: [pre-commit, pre-push, post-checkout]
+repos:
+  - repo: local
+    hooks:
+      - id: linters
+        name: linters
+        entry: nox -t lint
+        language: unsupported
+        types: [python]
+        require_serial: true
+        stages: [pre-commit]
+      - id: tests
+        name: tests
+        entry: nox -t tests
+        language: unsupported
+        types: [python]
+        require_serial: true
+        stages: [pre-push]
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    # uv version.
+    rev: 0.9.15
+    hooks:
+      - id: uv-sync
+
