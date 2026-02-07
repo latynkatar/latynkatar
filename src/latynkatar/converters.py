@@ -19,6 +19,7 @@ You should have received a copy of the GNU Lesser General Public License v3
 """
 
 from .const import (
+    HALOSNYJA_LAT,
     JOTAWANYJA_LITARY,
     KIRYLICZNY_ALFABET,
     LACINSKI_ALFABET,
@@ -26,6 +27,7 @@ from .const import (
     PRAVILY_KANVERTACYJ_CYR,
     PRAVILY_KANVERTACYJ_LAT,
     STARYJA_PRAWILY_KANVERTACYJI,
+    ZYCZNYJA_DYHRAFY,
 )
 from .utils import cyr_to_lat as utils
 
@@ -162,9 +164,8 @@ class LatCyrConverter:  # pylint: disable=too-few-public-methods, too-many-insta
         converted_text = ""
         self._pravily_kanvertacyi = PRAVILY_KANVERTACYJ_LAT
 
-        for self._index in range(  # noqa: B020
-            len(self._text)
-        ):  # pylint: disable=consider-using-enumerate
+        self._index = 0
+        while self._index < len(self._text):
             if self._text[self._index].lower() in LACINSKI_ALFABET:
                 self._in_word_now = True
                 converted_text += self._convert_letter()
@@ -173,9 +174,10 @@ class LatCyrConverter:  # pylint: disable=too-few-public-methods, too-many-insta
                 self._in_word_now = False
                 converted_text += self._text[self._index]
                 self._previos_letters = []
+            self._index += 1
         return converted_text
 
-    def _convert_letter(self) -> str:
+    def _convert_letter(self) -> str:  # pylint: disable=too-many-branches
         """Канвертаваць адну асобную літару ў адпаведныя сімвалы кірыліцы.
 
         :return: Вынік канвертацыі літары
@@ -183,15 +185,69 @@ class LatCyrConverter:  # pylint: disable=too-few-public-methods, too-many-insta
         """
         lowercase_letter = self._symbol.lower()
         converted_letter = ""
+        skip_one = False
         match lowercase_letter:
+            case letter if letter + self._next_symbol.lower() in ZYCZNYJA_DYHRAFY:
+                converted_letter = ZYCZNYJA_DYHRAFY[letter + self._next_symbol.lower()]
+                skip_one = True
             case letter if letter in self._pravily_kanvertacyi:
                 converted_letter = self._pravily_kanvertacyi[lowercase_letter]
+            case letter if [
+                x for x in MOHUC_PAZNACZACCA_JAK_MIAKKIJA.values() if letter in x
+            ]:
+                if letter in ("l", "ł"):
+                    converted_letter = "л"
+                    if (
+                        letter == "l"
+                        and self._next_symbol not in HALOSNYJA_LAT
+                        and self._next_symbol.lower() != ""
+                    ):
+                        converted_letter += "ь"
+                else:
+                    letter_variants = [
+                        x
+                        for x in MOHUC_PAZNACZACCA_JAK_MIAKKIJA.values()
+                        if letter in x
+                    ][0]
+                    converted_letter = [
+                        key
+                        for key, value in MOHUC_PAZNACZACCA_JAK_MIAKKIJA.items()
+                        if value == letter_variants
+                    ][0]
+                    if letter == letter_variants[-1]:  # калі зычны мяккі
+                        converted_letter += "ь"
+            case letter if letter in ("i", "j"):
+                if self._next_symbol.lower() in HALOSNYJA_LAT:
+                    converted_letter = [
+                        key
+                        for key, value in JOTAWANYJA_LITARY.items()
+                        if value == self._next_symbol.lower()
+                    ][0]
+                    skip_one = True
+                elif letter == "j":
+                    converted_letter = "й"
+                else:
+                    converted_letter = "і"
+            case letter if letter in HALOSNYJA_LAT:
+                if self._previos_letters and self._previos_letters[-1].lower() == "l":
+                    converted_letter = [
+                        key
+                        for key, value in JOTAWANYJA_LITARY.items()
+                        if letter == value
+                    ][0]
+                else:
+                    converted_letter = HALOSNYJA_LAT[letter]
 
-        return (
+        converted_results = (
             converted_letter
             if self._symbol.islower()
             else converted_letter.capitalize()
         )
+
+        if skip_one:
+            self._index += 1
+
+        return converted_results
 
     @property
     def _symbol(self) -> str:

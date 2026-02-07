@@ -10,3 +10,8 @@ except ModuleNotFoundError:
 def test_d():
     """Тэст на канвертацыю D"""
     assert latynkatar.convert_latin("DadodUDŭDE") == "ДадодУДўДЭ"
+
+
+def test_miakkija():
+    """Тест на канвертацыю зычных, якія могуць пазначацца як мяккія"""
+    assert latynkatar.convert_latin("LnŚźcsłŃZć") == "ЛьнСьзьцслНьЗць"
