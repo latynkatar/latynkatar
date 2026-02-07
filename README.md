@@ -32,6 +32,11 @@ $ python -m pip install latynkatar
 >>> # старая без пазначэння транзітыўнай мяккасці
 >>> latynkatar.convert_old("Але лёс склаўся так, што хрусць і папалам!", miakkasc=False)
 'Ale los skłaŭsia tak, szto chrusć i papałam!'
+>>> # канвертацыя лацініцы да кірыліцы
+>>> src.latynkatar.convert_latin("Ale los skłaŭsia tak, szto chrusć i papałam!")
+'Аэ о клаўа так, то гру  папалам!'
+>>> src.latynkatar.convert_latin("Ale los skłaŭsia tak, što chrusć i papałam!")
+'Аэ о клаўа так, што гру  папалам!'
 ```
 Прынцыпы працы бібліятэкі:
  - Ніякага выпраўлення памылак. 
