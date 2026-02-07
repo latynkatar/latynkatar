@@ -18,7 +18,7 @@ You should have received a copy of the GNU Lesser General Public License v3
 :copyright: (c) 2025 Łatynkatar group: https://github.com/latynkatar
 """
 
-from .converters import CyrLatConverter
+from .converters import CyrLatConverter, LatCyrConverter
 
 
 def convert(text: str, miakkasc: bool = True) -> str:
@@ -48,3 +48,16 @@ def convert_old(text: str, miakkasc: bool = True) -> str:
     """
 
     return CyrLatConverter(text=text).convert(old_rules=True, palatalization=miakkasc)
+
+
+def convert_latin(text: str) -> str:
+    """Канвертуе з лацінкі да кірыліцы. Усе літары і знакі, які не могуць
+    лічыцца беларускай лацінкай захоўваюцца без зменаў.
+
+    :param text: Тэкст, які мусіць быць сканвертаваны.
+    :type text: str
+    :return: Вынік канвертацыі
+    :rtype: str
+    """
+
+    return LatCyrConverter(text).convert()

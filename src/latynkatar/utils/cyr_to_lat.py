@@ -19,7 +19,7 @@ You should have received a copy of the GNU Lesser General Public License v3
 """
 
 from ..const import (
-    HALOSNYJA,
+    HALOSNYJA_CYR,
     JOTAWANYJA_LITARY,
     MOHUC_PAZNACZACCA_JAK_MIAKKIJA,
     ZYCZNYJA_Z_TRANZITAM,
@@ -57,7 +57,7 @@ def _ci_patrabuje_j(previos_letters: list[str]) -> bool:
     """
     return (
         not previos_letters
-        or previos_letters[-1].lower() in HALOSNYJA
+        or previos_letters[-1].lower() in HALOSNYJA_CYR
         or previos_letters[-1].lower() in ("'", "ь")
     )
 
