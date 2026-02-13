@@ -5,9 +5,9 @@ authors = [
   { name="Andrej Zacharevicz", email="zahar.by@gmail.com" },
   { name="Łatynkatar group", email="admin@latynkatar.org"}
 ]
-description = """EN: Simple and small package to convert belarussian cyrillic text to a modern (the one with ž, č, š and v) and classic (the one with ż, cz, sz and w) latin .
+description = """EN: Simple and small package to convert belarussian cyrillic text to a modern (the one with ž, č, š and v) and old (the one with ż, cz, sz and w) lathin or from lathin to cyrillic.
 
-BE: Просты і невялікі пакет для канвертацыі беларускай кірыліцы ў сучасную (з ž, č, š і v) і класічную (з ż, cz, sz і w) лацінку."""
+BE: Просты і невялікі пакет для канвертацыі беларускай кірыліцы ў сучасную (з ž, č, š і v) і старую (з ż, cz, sz і w) лацінку, ці з лацінкі ў кірыліцу."""
 readme = "README.md"
 requires-python = ">=3.10"
 classifiers = [
