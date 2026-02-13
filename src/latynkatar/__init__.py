@@ -56,6 +56,6 @@
 :copyright: (c) 2025 Łatynkatar group: https://github.com/latynkatar
 """
 
-from .latynkatar import convert, convert_old
+from .latynkatar import convert, convert_latin, convert_old
 
-__all__ = ["convert", "convert_old"]
+__all__ = ["convert", "convert_old", "convert_latin"]

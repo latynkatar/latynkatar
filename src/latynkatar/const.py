@@ -53,7 +53,42 @@ KIRYLICZNY_ALFABET = [
     "ю",
     "я",
 ]
-HALOSNYJA = ("а", "е", "ё", "і", "у", "ы", "э", "ю", "я")
+LACINSKI_ALFABET = [
+    "a",
+    "b",
+    "c",
+    "ć",
+    "č",
+    "d",
+    "e",
+    "f",
+    "g",
+    "h",
+    "i",
+    "j",
+    "k",
+    "l",
+    "ł",
+    "m",
+    "n",
+    "ń",
+    "o",
+    "p",
+    "r",
+    "s",
+    "ś",
+    "š",
+    "t",
+    "u",
+    "ŭ",
+    "v",
+    "w",
+    "y",
+    "z",
+    "ź",
+    "ž",
+    "ż",
+]
 MOHUC_PAZNACZACCA_JAK_MIAKKIJA = {
     "н": ("n", "ń"),
     "с": ("s", "ś"),
@@ -61,7 +96,12 @@ MOHUC_PAZNACZACCA_JAK_MIAKKIJA = {
     "з": ("z", "ź"),
     "л": ("ł", "l"),
 }
-PRAVILY_KANVERTACYJ = {
+#
+# Кірылічныя канстанты
+#
+HALOSNYJA_CYR = ("а", "е", "ё", "і", "у", "ы", "э", "ю", "я")
+
+PRAVILY_KANVERTACYJ_CYR = {
     "а": "a",
     "э": "e",
     "ы": "y",
@@ -85,7 +125,7 @@ PRAVILY_KANVERTACYJ = {
     "ш": "š",
     "х": "ch",
 }
-STARYJA_PRAWILY_KANVERTACYJI = dict(PRAVILY_KANVERTACYJ)
+STARYJA_PRAWILY_KANVERTACYJI = dict(PRAVILY_KANVERTACYJ_CYR)
 STARYJA_PRAWILY_KANVERTACYJI.update(
     {
         "ч": "cz",
@@ -121,3 +161,43 @@ ZYCZNYJA_Z_TRANZITAM = (
     "ш",
 )
 ZYCZNYJA_BIEZ_TRANZITU = ("г", "к", "х")
+
+
+#
+# Лацінскія канстанты
+#
+PRAVILY_KANVERTACYJ_LAT = {
+    "y": "ы",
+    "ŭ": "ў",
+    "b": "б",
+    "v": "в",
+    "w": "в",
+    "g": "ґ",
+    "d": "д",
+    "ž": "ж",
+    "ż": "ж",
+    "k": "к",
+    "m": "м",
+    "p": "п",
+    "r": "р",
+    "t": "т",
+    "f": "ф",
+    "č": "ч",
+    "š": "ш",
+    "ł": "л",
+    "h": "г",
+    "c": "ц",
+    "s": "с",
+}
+
+HALOSNYJA_LAT = {
+    "e": "э",
+    "u": "у",
+    "o": "о",
+    "a": "а",
+}
+ZYCZNYJA_DYHRAFY = {
+    "ch": "х",
+    "sz": "ш",
+    "cz": "ч",
+}
