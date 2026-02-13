@@ -29,7 +29,8 @@ from .const import (
     STARYJA_PRAWILY_KANVERTACYJI,
     ZYCZNYJA_DYHRAFY,
 )
-from .utils import cyr_to_lat as utils
+from .utils import cyr_to_lat as utils_cyr
+from .utils import lat_to_cyr as utils_lat
 
 
 class CyrLatConverter:  # pylint: disable=too-few-public-methods, too-many-instance-attributes
@@ -93,7 +94,7 @@ class CyrLatConverter:  # pylint: disable=too-few-public-methods, too-many-insta
             case letter if letter in self._pravily_kanvertacyi:
                 converted_letter = self._pravily_kanvertacyi[lowercase_letter]
             case letter if letter in MOHUC_PAZNACZACCA_JAK_MIAKKIJA:
-                converted_letter = utils.kanvertavac_miakkija_zycznyja(
+                converted_letter = utils_cyr.kanvertavac_miakkija_zycznyja(
                     simval=self._symbol,
                     nastupny_simval=self._next_symbol,
                     druhi_nastupny=self._second_next_symbol,
@@ -102,7 +103,7 @@ class CyrLatConverter:  # pylint: disable=too-few-public-methods, too-many-insta
             case letter if letter in ["'", "ь"]:
                 pass
             case letter if letter in JOTAWANYJA_LITARY:
-                converted_letter = utils.kanvertavac_jotavanyja(
+                converted_letter = utils_cyr.kanvertavac_jotavanyja(
                     self._symbol, self._previos_letters
                 )
 
@@ -152,7 +153,7 @@ class LatCyrConverter:  # pylint: disable=too-few-public-methods, too-many-insta
         self._len = len(self._text)
         self._in_word_now = False
         self._previos_letters: list[str] = []
-        self._pravily_kanvertacyi: dict[str, str]
+        self._pravily_kanvertacyi: dict[str, str] = PRAVILY_KANVERTACYJ_LAT
         self._index: int
 
     def convert(self) -> str:
@@ -162,7 +163,6 @@ class LatCyrConverter:  # pylint: disable=too-few-public-methods, too-many-insta
         :rtype: str
         """
         converted_text = ""
-        self._pravily_kanvertacyi = PRAVILY_KANVERTACYJ_LAT
 
         self._index = 0
         while self._index < len(self._text):
@@ -188,46 +188,28 @@ class LatCyrConverter:  # pylint: disable=too-few-public-methods, too-many-insta
         skip_one = False
         match lowercase_letter:
             case letter if letter + self._next_symbol.lower() in ZYCZNYJA_DYHRAFY:
-                converted_letter = ZYCZNYJA_DYHRAFY[letter + self._next_symbol.lower()]
+                if (
+                    self._previos_letters
+                    and self._previos_letters[-1].lower() == "l"
+                    and letter == "j"
+                ):
+                    converted_letter += "ь"
+                converted_letter += ZYCZNYJA_DYHRAFY[letter + self._next_symbol.lower()]
                 skip_one = True
             case letter if letter in self._pravily_kanvertacyi:
                 converted_letter = self._pravily_kanvertacyi[lowercase_letter]
             case letter if [
                 x for x in MOHUC_PAZNACZACCA_JAK_MIAKKIJA.values() if letter in x
             ]:
-                if letter in ("l", "ł"):
-                    converted_letter = "л"
-                    if (
-                        letter == "l"
-                        and self._next_symbol not in HALOSNYJA_LAT
-                        and self._next_symbol.lower() != ""
-                    ):
-                        converted_letter += "ь"
-                else:
-                    letter_variants = [
-                        x
-                        for x in MOHUC_PAZNACZACCA_JAK_MIAKKIJA.values()
-                        if letter in x
-                    ][0]
-                    converted_letter = [
-                        key
-                        for key, value in MOHUC_PAZNACZACCA_JAK_MIAKKIJA.items()
-                        if value == letter_variants
-                    ][0]
-                    if letter == letter_variants[-1]:  # калі зычны мяккі
-                        converted_letter += "ь"
+                converted_letter = utils_lat.convert_miakkija_zycznyja(
+                    letter, next_symbol=self._next_symbol
+                )
             case letter if letter in ("i", "j"):
-                if self._next_symbol.lower() in HALOSNYJA_LAT:
-                    converted_letter = [
-                        key
-                        for key, value in JOTAWANYJA_LITARY.items()
-                        if value == self._next_symbol.lower()
-                    ][0]
-                    skip_one = True
-                elif letter == "j":
-                    converted_letter = "й"
-                else:
-                    converted_letter = "і"
+                converted_letter, skip_one = utils_lat.convert_jotavanyja(
+                    letter,
+                    previos_letters=self._previos_letters,
+                    next_symbol=self._next_symbol,
+                )
             case letter if letter in HALOSNYJA_LAT:
                 if self._previos_letters and self._previos_letters[-1].lower() == "l":
                     converted_letter = [

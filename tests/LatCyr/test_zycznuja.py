@@ -15,3 +15,8 @@ def test_d():
 def test_miakkija():
     """Тест на канвертацыю зычных, якія могуць пазначацца як мяккія"""
     assert latynkatar.convert_latin("LnŚźcsłŃZć") == "ЛьнСьзьцслНьЗць"
+
+
+def test_l():
+    """Тэст на канвертацыю l"""
+    assert latynkatar.convert_latin("nadumali LuŁiLijulje") == "надумалі ЛюЛ'іЛіюлье"

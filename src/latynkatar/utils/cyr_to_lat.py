@@ -59,6 +59,7 @@ def _ci_patrabuje_j(previos_letters: list[str]) -> bool:
         not previos_letters
         or previos_letters[-1].lower() in HALOSNYJA_CYR
         or previos_letters[-1].lower() in ("'", "ь")
+        or previos_letters[-1].lower() == "ł"
     )
 
 

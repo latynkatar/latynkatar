@@ -27,7 +27,7 @@ def convert(text: str, miakkasc: bool = True) -> str:
 
     :param text: Тэкст які мусіць быць сканвертаваны
     :type text: str
-    :param Ці пазначаць транзітыўную мяккасць, defaults to True
+    :param miakkasc: Ці пазначаць транзітыўную мяккасць, defaults to True
     :type miakkasc: bool, optional
     :return: Сканвертаваны ў лацінку тэкст
     :rtype: str
