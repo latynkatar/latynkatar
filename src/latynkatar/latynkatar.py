@@ -18,7 +18,8 @@ You should have received a copy of the GNU Lesser General Public License v3
 :copyright: (c) 2025 Łatynkatar group: https://github.com/latynkatar
 """
 
-from .converters import CyrLatConverter, LatCyrConverter
+from .converters.cyr_lat import CyrLatConverter
+from .converters.lat_cyr import LatCyrConverter
 
 
 def convert(text: str, miakkasc: bool = True) -> str:

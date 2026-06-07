@@ -52,6 +52,7 @@ KIRYLICZNY_ALFABET = [
     "э",
     "ю",
     "я",
+    "'",
 ]
 LACINSKI_ALFABET = [
     "a",
