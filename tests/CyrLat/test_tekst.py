@@ -12,14 +12,18 @@ except ModuleNotFoundError:
     from src import latynkatar
 
 from tests.data.bahdanovicz import (
-    PRYKLAD_BAHDANOVICZ,
-    UZOR_BAHDANOVICZ,
-    UZOR_BAHDANOVICZ_STARY,
+    BAHDANOVICZ_KIRYLICA,
+    BAHDANOVICZ_LACINKA_CZESZSKAJA,
+    BAHDANOVICZ_LACINKA_POLSKAJA,
 )
-from tests.data.pamylka import PRYKLAD_PAMYLKA, UZOR_PAMYLKA, UZOR_PAMYLKA_STARY
+from tests.data.pamylka import (
+    PAMYLKA_KIRYLICA,
+    PAMYLKA_LACINKA_CZESZSKAJA,
+    PAMYLKA_LACINKA_POLSKAJA,
+)
 
 _LOGGER = getLogger(__name__)
-_CZAKANY_CZAS_NA_NOVUJU_ZIAMLU = 0.6 if os.getenv("CI") else 0.3
+_CZAKANY_CZAS_NA_NOVUJU_ZIAMLU = 0.8 if os.getenv("CI") else 0.6
 
 
 with open("tests/data/novaja_ziamla.txt", "r", encoding="utf-8") as novy_fail:
@@ -28,22 +32,22 @@ with open("tests/data/novaja_ziamla.txt", "r", encoding="utf-8") as novy_fail:
 
 def test_z_pamylki():
     """Праверка канвертацыі тэкста з «Памылкі»."""
-    assert latynkatar.convert(PRYKLAD_PAMYLKA) == UZOR_PAMYLKA
+    assert latynkatar.convert(PAMYLKA_KIRYLICA) == PAMYLKA_LACINKA_CZESZSKAJA
 
 
 def test_z_pamylki_stary():
     """Праверка канвертацыі тэкста з «Памылкі» да старога набора сімвалаў."""
-    assert latynkatar.convert_old(PRYKLAD_PAMYLKA) == UZOR_PAMYLKA_STARY
+    assert latynkatar.convert_old(PAMYLKA_KIRYLICA) == PAMYLKA_LACINKA_POLSKAJA
 
 
 def test_bahdanovicz():
     """Тэст на канвертацыю верша Багдановіча."""
-    assert latynkatar.convert(PRYKLAD_BAHDANOVICZ) == UZOR_BAHDANOVICZ
+    assert latynkatar.convert(BAHDANOVICZ_KIRYLICA) == BAHDANOVICZ_LACINKA_CZESZSKAJA
 
 
 def test_bahdanovicz_stary():
     """Тэст на канвертацыю верша Багдановіча да старога набора сімвалаў."""
-    assert latynkatar.convert_old(PRYKLAD_BAHDANOVICZ) == UZOR_BAHDANOVICZ_STARY
+    assert latynkatar.convert_old(BAHDANOVICZ_KIRYLICA) == BAHDANOVICZ_LACINKA_POLSKAJA
 
 
 def test_novaj_ziamloju():

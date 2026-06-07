@@ -8,7 +8,7 @@ try:
 except ModuleNotFoundError:
     from src import latynkatar
 
-from tests.data.bahdanovicz import PRYKLAD_BAHDANOVICZ
+from tests.data.bahdanovicz import BAHDANOVICZ_KIRYLICA
 from tests.data.kulaszou import KULASZOU_PRYKLAD
 
 
@@ -34,9 +34,9 @@ def test_bahdanovicz():
     """Тэст на канвертацыю верша Багдановіча."""
     assert (
         latynkatar.convert_latin(
-            latynkatar.convert(PRYKLAD_BAHDANOVICZ, miakkasc=False)
+            latynkatar.convert(BAHDANOVICZ_KIRYLICA, miakkasc=False)
         )
-        == PRYKLAD_BAHDANOVICZ
+        == BAHDANOVICZ_KIRYLICA
     )
 
 
@@ -44,7 +44,7 @@ def test_bahdanovicz_stary():
     """Тэст на канвертацыю верша Багдановіча да старога набора сімвалаў."""
     assert (
         latynkatar.convert_latin(
-            latynkatar.convert_old(PRYKLAD_BAHDANOVICZ, miakkasc=False)
+            latynkatar.convert_old(BAHDANOVICZ_KIRYLICA, miakkasc=False)
         )
-        == PRYKLAD_BAHDANOVICZ
+        == BAHDANOVICZ_KIRYLICA
     )
