@@ -1,8 +1,6 @@
 = Łatynkatar
+image::https://img.shields.io/badge/License-LGPL%20v3-blue.svg[LGPL v3, link=https://github.com/latynkatar/latynkatar/blob/main/LICENSE]
 :toc:
-
-https://github.com/latynkatar/latynkatar/blob/main/LICENSE[image::https://img.shields.io/badge/License-LGPL%20v3-blue.svg]
-
 
 Маленькая і простая бібліятэка для канвертацыі кірыліцы ў сучасную (з ž, č, š і v, т.зв. "чэшскую") і старую(з ż, cz, sz і w, т.зв. "пользскую") лацінку, ці з лацінкі ў кірыліцу.
 
@@ -10,18 +8,19 @@ https://github.com/latynkatar/latynkatar/blob/main/LICENSE[image::https://img.sh
 
 Latynkatar https://pypi.org/project/latynkatar/[ёсць у PyPI].
 
-```console
+[,bash]
+----
 $ python -m pip install latynkatar
-```
+----
 
-Не правяралася і не гарантуецца праца з **Python** да версіі **3.10**.
+Не правяралася і не гарантуецца праца з *Python* да версіі *3.10*.
 
 == Ужыванне
 
 Усё досыць просталінейна:
 
 [,python]
----
+----
 >>> import latynkatar
 >>> # сучасная ("чэшская")
 >>> latynkatar.convert("Але лёс склаўся так, што хрусць і папалам!")
@@ -40,24 +39,26 @@ $ python -m pip install latynkatar
 'Але лёс склаўся так, што хрусць і папалам!'
 >>> latynkatar.convert_latin("Ale los skłaŭsia tak, szto chrusć i papałam!")
 'Але лёс склаўся так, што хрусць і папалам!'
----
+----
 
 Прынцыпы працы бібліятэкі:
+
 * Ніякага выпраўлення памылак. 
 * Са зменаў правапісу толькі яўна пазначаецца транзітыўная мяккасць зычных, астатняе пры канвертацыі захоўваецца роўна з тымі ж асаблівасцямі правапісу і памылкамі, якія былі да канвертацыі. Прычым, пазначэнне мяккасці пры жаданні можна адключыць (гл. прыклад вышэй)
 * Усе словы разглядаюцца як раўназначныя. З улікам таго, што у лацінцы звычайна выкарыстоўваюцца арыгінальныя геаграфічныя назвы і імёны для моў, якія ўжываюць лацінскую графіку, вельмі раілі б вычытваць выніковы тэкст перад публікацыяй.
 * Кірылічныя сімвалы, якім адпавядае некалькі лацінскіх сімвалаў пры трансляцыі вялікіх літар маюць вялікай толькі першую літару ў пары (Chleb, Jan), што можа быць праблемай у выпадках, калі гэта не слова з вялікай літары ці абрэвіятура, а проста нешта напісанае КАПСАМ. Бо атрымаецца ChLEB, JaN.
 * Канвертацыя ў кірыліцу не змяняе ў арыгінальным тэксце нічога, так што ўсё заўвагі вышай тычацца і яе. Бібліятэка можа апрацоўваць тэкст, у каторым адначасова ўжываюцца "польскі" і "чэшскі" варыянты:
- [,python]
- ---
- latynkatar.convert_latin("Sztości dzieści šumić")
- 'Штосьці дзесьці шуміць'
- ---
+
+[,python]
+----
+latynkatar.convert_latin("Sztości dzieści šumić")
+'Штосьці дзесьці шуміць'
+----
 
 == Анлайн канвертар
 У якасці ўзору ўжывання бібліятэкі ці анлайн канвертара створанага на яе аснове магу прапанаваць паглядзець на сайт https://latynkatar.org[latynkatar.org]. Зыходнікі даступныя https://github.com/latynkatar/latynkatar_site[тут].
 
 == Ліцэнзія
-Copyright група Łatynkatar, 2026
+Copyright група https://github.com/latynkatar[Łatynkatar], 2026
 
-https://github.com/latynkatar/latynkatar/blob/main/LICENSE[image::https://www.gnu.org/graphics/lgplv3-with-text-154x68.png] ад https://www.gnu.org/licenses/lgpl-3.0.html[GNU]
+[image::https://www.gnu.org/graphics/lgplv3-with-text-154x68.png[LGPL v3, link=https://github.com/latynkatar/latynkatar/blob/main/LICENSE] ад https://www.gnu.org/licenses/lgpl-3.0.html[GNU]
