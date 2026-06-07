@@ -18,6 +18,6 @@ dist
 .idea
 ~*
 .*.swp
-git checkout 104-abnavic-zaleznasci
+
 # test report
 report*.html
