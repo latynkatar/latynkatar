@@ -6,7 +6,10 @@ __pycache__
 test-venv
 build-env
 venv
+.venv
 .nox
+.mypy_cache
+.ruff_cache
 
 # Build folder
 dist
@@ -15,6 +18,6 @@ dist
 .idea
 ~*
 .*.swp
-
+git checkout 104-abnavic-zaleznasci
 # test report
 report*.html
