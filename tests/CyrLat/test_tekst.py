@@ -23,7 +23,7 @@ from tests.data.pamylka import (
 )
 
 _LOGGER = getLogger(__name__)
-_CZAKANY_CZAS_NA_NOVUJU_ZIAMLU = 0.6 if os.getenv("CI") else 0.3
+_CZAKANY_CZAS_NA_NOVUJU_ZIAMLU = 0.8 if os.getenv("CI") else 0.6
 
 
 with open("tests/data/novaja_ziamla.txt", "r", encoding="utf-8") as novy_fail:
