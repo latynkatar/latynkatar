@@ -1,6 +1,9 @@
 = Łatynkatar
-image::https://img.shields.io/badge/License-LGPL%20v3-blue.svg[LGPL v3, link=https://github.com/latynkatar/latynkatar/blob/main/LICENSE]
+:toc-title: Змест
 :toc:
+
+image::https://img.shields.io/badge/License-LGPL%20v3-blue.svg[LGPL v3, link=https://github.com/latynkatar/latynkatar/blob/main/LICENSE]
+
 
 Маленькая і простая бібліятэка для канвертацыі кірыліцы ў сучасную (з ž, č, š і v, т.зв. "чэшскую") і старую(з ż, cz, sz і w, т.зв. "пользскую") лацінку, ці з лацінкі ў кірыліцу.
 
@@ -51,7 +54,7 @@ $ python -m pip install latynkatar
 
 [,python]
 ----
-latynkatar.convert_latin("Sztości dzieści šumić")
+>>> latynkatar.convert_latin("Sztości dzieści šumić")
 'Штосьці дзесьці шуміць'
 ----
 
@@ -61,4 +64,6 @@ latynkatar.convert_latin("Sztości dzieści šumić")
 == Ліцэнзія
 Copyright група https://github.com/latynkatar[Łatynkatar], 2026
 
-[image::https://www.gnu.org/graphics/lgplv3-with-text-154x68.png[LGPL v3, link=https://github.com/latynkatar/latynkatar/blob/main/LICENSE] ад https://www.gnu.org/licenses/lgpl-3.0.html[GNU]
+image::https://www.gnu.org/graphics/lgplv3-with-text-154x68.png[LGPL v3, link=https://github.com/latynkatar/latynkatar/blob/main/LICENSE] 
+
+ад https://www.gnu.org/licenses/lgpl-3.0.html[GNU]
