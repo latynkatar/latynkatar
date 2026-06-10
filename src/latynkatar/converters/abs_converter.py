@@ -66,16 +66,28 @@ class AbstractConverter(ABC):  # pylint: disable=too-few-public-methods
         raise NotImplementedError
 
     @property
-    @abstractmethod
     def _symbol(self) -> str:
-        raise NotImplementedError
+        """Бягучы сімвал у часе канвертацыі.
+
+        :return: Бягучы сімвал
+        :rtype: str
+        """
+        return self._text[self._index]
 
     @property
-    @abstractmethod
     def _next_symbol(self) -> str:
-        raise NotImplementedError
+        """Наступны симвал.
+
+        :return: Вяртае наступны сімвал, альбо пусты радок, калі наступны сімвал не існуе
+        :rtype: str
+        """
+        return self._text[self._index + 1] if self._index < self._len - 1 else ""
 
     @property
-    @abstractmethod
     def _second_next_symbol(self) -> str:
-        raise NotImplementedError
+        """Сімвал праз адзін наперад ад бягучага.
+
+        :return: Вяртае другі наступны сімвал ад бягучага, альбо пусты радок, калі той сімвал не існуе
+        :rtype: str
+        """
+        return self._text[self._index + 2] if self._index < self._len - 2 else ""
