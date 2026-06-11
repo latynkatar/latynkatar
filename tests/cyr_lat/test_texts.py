@@ -32,28 +32,44 @@ with open("tests/data/novaja_ziamla.txt", "r", encoding="utf-8") as novy_fail:
 
 def test_z_pamylki():
     """Праверка канвертацыі тэкста з «Памылкі»."""
-    assert latynkatar.convert(PAMYLKA_CYRRILIC) == PAMYLKA_CZECH_LATIN
+    assert (
+        latynkatar.CyrLatConverter(PAMYLKA_CYRRILIC).convert(palatalization=True)
+        == PAMYLKA_CZECH_LATIN
+    )
 
 
 def test_z_pamylki_stary():
     """Праверка канвертацыі тэкста з «Памылкі» да старога набора сімвалаў."""
-    assert latynkatar.convert_old(PAMYLKA_CYRRILIC) == PAMYLKA_POLISH_LATIN
+    assert (
+        latynkatar.CyrLatConverter(PAMYLKA_CYRRILIC).convert(
+            old_rules=True, palatalization=True
+        )
+        == PAMYLKA_POLISH_LATIN
+    )
 
 
 def test_bahdanovicz():
     """Тэст на канвертацыю верша Багдановіча."""
-    assert latynkatar.convert(BAHDANOVICZ_CYRRILIC) == BAHDANOVICZ_CZECH_LATIN
+    assert (
+        latynkatar.CyrLatConverter(BAHDANOVICZ_CYRRILIC).convert(palatalization=True)
+        == BAHDANOVICZ_CZECH_LATIN
+    )
 
 
 def test_bahdanovicz_stary():
     """Тэст на канвертацыю верша Багдановіча да старога набора сімвалаў."""
-    assert latynkatar.convert_old(BAHDANOVICZ_CYRRILIC) == BAHDANOVICZ_POLISH_LATIN
+    assert (
+        latynkatar.CyrLatConverter(BAHDANOVICZ_CYRRILIC).convert(
+            old_rules=True, palatalization=True
+        )
+        == BAHDANOVICZ_POLISH_LATIN
+    )
 
 
 def test_novaj_ziamloju():
     """Тэст хуткасці канвертацыі з дапамогай «Новай зямлі»."""
     start = monotonic()
-    _ = latynkatar.convert(NOVAJA_ZIAMLA)
+    _ = latynkatar.CyrLatConverter(NOVAJA_ZIAMLA).convert()
     finish = monotonic()
 
     time_required = finish - start
@@ -71,7 +87,7 @@ def test_novaj_ziamloju():
 def test_novaj_ziamloju_stary():
     """Тэст хуткасці канвертацыі з дапамогай «Новай зямлі» (стары набор сімвалаў)."""
     start = monotonic()
-    _ = latynkatar.convert_old(NOVAJA_ZIAMLA)
+    _ = latynkatar.CyrLatConverter(NOVAJA_ZIAMLA).convert(old_rules=True)
     finish = monotonic()
 
     time_required = finish - start

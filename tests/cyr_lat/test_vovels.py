@@ -9,9 +9,17 @@ except ModuleNotFoundError:
 
 def test_ju():
     """Тэст на канвертацыю ю"""
-    assert latynkatar.convert("ЮрліВец лЮбіЦь лІю п'ю") == "JurliViec lUbiĆ lIju pju"
+    assert (
+        latynkatar.CyrLatConverter("ЮрліВец лЮбіЦь лІю п'ю").convert(
+            palatalization=True
+        )
+        == "JurliViec lUbiĆ lIju pju"
+    )
 
 
 def test_ja():
     """Тэст на канвертацыю я"""
-    assert latynkatar.convert("Яз'яваЗЯпазЬяВА") == "JazjavaZIapaźjaVA"
+    assert (
+        latynkatar.CyrLatConverter("Яз'яваЗЯпазЬяВА").convert(palatalization=True)
+        == "JazjavaZIapaźjaVA"
+    )

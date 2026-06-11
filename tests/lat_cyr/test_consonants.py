@@ -9,14 +9,17 @@ except ModuleNotFoundError:
 
 def test_d():
     """Тэст на канвертацыю D"""
-    assert latynkatar.convert_latin("DadodUDŭDE") == "ДадодУДўДЭ"
+    assert latynkatar.LatCyrConverter("DadodUDŭDE").convert() == "ДадодУДўДЭ"
 
 
 def test_miakkija():
     """Тест на канвертацыю зычных, якія могуць пазначацца як мяккія"""
-    assert latynkatar.convert_latin("LnŚźcsłŃZć") == "ЛьнСьзьцслНьЗць"
+    assert latynkatar.LatCyrConverter("LnŚźcsłŃZć").convert() == "ЛьнСьзьцслНьЗць"
 
 
 def test_l():
     """Тэст на канвертацыю l"""
-    assert latynkatar.convert_latin("nadumali LuŁiLijulje") == "надумалі ЛюЛ'іЛіюлье"
+    assert (
+        latynkatar.LatCyrConverter("nadumali LuŁiLijulje").convert()
+        == "надумалі ЛюЛ'іЛіюлье"
+    )
