@@ -15,7 +15,7 @@ in the repo, see <https://github.com/latynkatar/latynkatar/blob/main/LICENSE>.
 You should have received a copy of the GNU Lesser General Public License v3
 (LGPLv3) along with Łatynkatar. If not, see <https://www.gnu.org/licenses/>.
 
-:copyright: (c) 2025 Łatynkatar group: https://github.com/latynkatar
+:copyright: (c) 2026 Łatynkatar group: https://github.com/latynkatar
 """
 
 KIRYLICZNY_ALFABET = [
