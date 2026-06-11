@@ -1,6 +1,6 @@
 """Тэставыя дадзеныя у выглядзе верша Багдановіча"""
 
-BAHDANOVICZ_KIRYLICA = """Маладыя гады,
+BAHDANOVICZ_CYRRILIC = """Маладыя гады,
 Маладыя жаданні!
 Ні жуды, ні нуды,
 Толькі шчасьце каханьня!
@@ -20,7 +20,7 @@ BAHDANOVICZ_KIRYLICA = """Маладыя гады,
 Пралятайце, гады,
 Залатымі агнямі!
 """
-BAHDANOVICZ_LACINKA_CZESZSKAJA = """Maładyja hady,
+BAHDANOVICZ_CZECH_LATIN = """Maładyja hady,
 Maładyja žadańni!
 Ni žudy, ni nudy,
 Tolki ščaście kachańnia!
@@ -40,7 +40,7 @@ Poŭny śvietłymi dniami!
 Pralatajcie, hady,
 Załatymi ahniami!
 """
-BAHDANOVICZ_LACINKA_POLSKAJA = """Maładyja hady,
+BAHDANOVICZ_POLISH_LATIN = """Maładyja hady,
 Maładyja żadańni!
 Ni żudy, ni nudy,
 Tolki szczaście kachańnia!
