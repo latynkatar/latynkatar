@@ -17,6 +17,8 @@ nox.options.sessions = [
     "pytest",
 ]
 
+nox.options.default_venv_backend = "uv"
+
 
 @nox.session
 def black(session):
@@ -53,10 +55,9 @@ def ruff(session):
     session.run("ruff", "check", "tests/", "src/", "noxfile.py")
 
 
-@nox.session(tags=["lint", "tests"])
+@nox.session(tags=["lint", "tests"], python=False)
 def pylint(session):
     """Правярае код з дапамогай pylint."""
-    session.install("pylint", "nox", "toml")
     session.run("pylint", "tests/", "src/", "noxfile.py")
 
 
@@ -67,17 +68,15 @@ def flake8(session):
     session.run("flake8", ".", "--count", "--exclude", ".nox,.venv")
 
 
-@nox.session(tags=["lint", "tests"])
+@nox.session(tags=["lint", "tests"], python=False)
 def mypy(session):
     """Правярае пазначэнне і супадзенне тыпаў праз mypy."""
-    session.install("mypy")
     session.run("mypy", "-p", "src.latynkatar")
 
 
-@nox.session(tags=["tests"])
+@nox.session(tags=["tests"], python=False)
 def pytest(session):
     """Юніттэсты з pytest."""
-    session.install("pytest", "pytest-html")
     if os.getenv("IS_THIS_A_PACKAGE_TEST") == "true":
         files = list(glob.glob("dist/*.whl"))
         if len(files) != 1:

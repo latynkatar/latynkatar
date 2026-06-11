@@ -26,21 +26,21 @@ $ python -m pip install latynkatar
 ----
 >>> import latynkatar
 >>> # сучасная ("чэшская")
->>> latynkatar.convert("Але лёс склаўся так, што хрусць і папалам!")
+>>> latynkatar.CyrLatConverter("Але лёс склаўся так, што хрусць і папалам!").convert(palatalization=True)
 'Ale los skłaŭsia tak, što chruść i papałam!'
 >>> # сучасная без пазначэння транзітыўнай мяккасці
->>> latynkatar.convert("Але лёс склаўся так, што хрусць і папалам!", miakkasc=False)
+>>> latynkatar.CyrLatConverter("Але лёс склаўся так, што хрусць і папалам!").convert()
 'Ale los skłaŭsia tak, što chrusć i papałam!'
 >>> # старая ("польская")
->>> latynkatar.convert_old("Але лёс склаўся так, што хрусць і папалам!")
+>>> latynkatar.CyrLatConverter("Але лёс склаўся так, што хрусць і папалам!").convert(old_rules=True, palatalization=True)
 'Ale los skłaŭsia tak, szto chruść i papałam!'
 >>> # старая без пазначэння транзітыўнай мяккасці
->>> latynkatar.convert_old("Але лёс склаўся так, што хрусць і папалам!", miakkasc=False)
+>>> latynkatar.CyrLatConverter("Але лёс склаўся так, што хрусць і папалам!").convert(old_rules=True)
 'Ale los skłaŭsia tak, szto chrusć i papałam!'
 >>> # канвертацыя лацініцы да кірыліцы
->>> latynkatar.convert_latin("Ale los skłaŭsia tak, što chrusć i papałam!")
+>>> latynkatar.LatCyrConverter("Ale los skłaŭsia tak, što chrusć i papałam!").convert()
 'Але лёс склаўся так, што хрусць і папалам!'
->>> latynkatar.convert_latin("Ale los skłaŭsia tak, szto chrusć i papałam!")
+>>> latynkatar.LatCyrConverter("Ale los skłaŭsia tak, szto chrusć i papałam!").convert()
 'Але лёс склаўся так, што хрусць і папалам!'
 ----
 
@@ -54,7 +54,7 @@ $ python -m pip install latynkatar
 
 [,python]
 ----
->>> latynkatar.convert_latin("Sztości dzieści šumić")
+>>> latynkatar.LatCyrConverter("Sztości dzieści šumić").convert()
 'Штосьці дзесьці шуміць'
 ----
 

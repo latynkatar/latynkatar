@@ -15,7 +15,9 @@ from tests.data.kulaszou import KULASZOU
 def test_z_pamylki():
     """Праверка канвертацыі тэкста з «Памылкі»."""
     assert (
-        latynkatar.convert_latin(latynkatar.convert(KULASZOU, miakkasc=False))
+        latynkatar.LatCyrConverter(
+            latynkatar.CyrLatConverter(KULASZOU).convert(palatalization=False)
+        ).convert()
         == KULASZOU
     )
 
@@ -23,7 +25,11 @@ def test_z_pamylki():
 def test_z_pamylki_stary():
     """Праверка канвертацыі тэкста з «Памылкі» да старога набора сімвалаў."""
     assert (
-        latynkatar.convert_latin(latynkatar.convert_old(KULASZOU, miakkasc=False))
+        latynkatar.LatCyrConverter(
+            latynkatar.CyrLatConverter(KULASZOU).convert(
+                palatalization=False, old_rules=True
+            )
+        ).convert()
         == KULASZOU
     )
 
@@ -31,9 +37,11 @@ def test_z_pamylki_stary():
 def test_bahdanovicz():
     """Тэст на канвертацыю верша Багдановіча."""
     assert (
-        latynkatar.convert_latin(
-            latynkatar.convert(BAHDANOVICZ_CYRRILIC, miakkasc=False)
-        )
+        latynkatar.LatCyrConverter(
+            latynkatar.CyrLatConverter(BAHDANOVICZ_CYRRILIC).convert(
+                palatalization=False
+            )
+        ).convert()
         == BAHDANOVICZ_CYRRILIC
     )
 
@@ -41,8 +49,10 @@ def test_bahdanovicz():
 def test_bahdanovicz_stary():
     """Тэст на канвертацыю верша Багдановіча да старога набора сімвалаў."""
     assert (
-        latynkatar.convert_latin(
-            latynkatar.convert_old(BAHDANOVICZ_CYRRILIC, miakkasc=False)
-        )
+        latynkatar.LatCyrConverter(
+            latynkatar.CyrLatConverter(BAHDANOVICZ_CYRRILIC).convert(
+                palatalization=False, old_rules=True
+            )
+        ).convert()
         == BAHDANOVICZ_CYRRILIC
     )
