@@ -15,10 +15,10 @@ in the repo, see <https://github.com/latynkatar/latynkatar/blob/main/LICENSE>.
 You should have received a copy of the GNU Lesser General Public License v3
 (LGPLv3) along with Łatynkatar. If not, see <https://www.gnu.org/licenses/>.
 
-:copyright: (c) 2025 Łatynkatar group: https://github.com/latynkatar
+:copyright: (c) 2026 Łatynkatar group: https://github.com/latynkatar
 """
 
-KIRYLICZNY_ALFABET = [
+CYRRILIC_ALPHABET = [
     "а",
     "б",
     "в",
@@ -52,8 +52,9 @@ KIRYLICZNY_ALFABET = [
     "э",
     "ю",
     "я",
+    "'",
 ]
-LACINSKI_ALFABET = [
+LATIN_ALPHABET = [
     "a",
     "b",
     "c",
@@ -89,7 +90,7 @@ LACINSKI_ALFABET = [
     "ž",
     "ż",
 ]
-MOHUC_PAZNACZACCA_JAK_MIAKKIJA = {
+PALATIZEABLE_CONSONANTS = {
     "н": ("n", "ń"),
     "с": ("s", "ś"),
     "ц": ("c", "ć"),
@@ -99,9 +100,9 @@ MOHUC_PAZNACZACCA_JAK_MIAKKIJA = {
 #
 # Кірылічныя канстанты
 #
-HALOSNYJA_CYR = ("а", "е", "ё", "і", "у", "ы", "э", "ю", "я")
+CYRRILIC_VOVELS = ("а", "е", "ё", "і", "у", "ы", "э", "ю", "я")
 
-PRAVILY_KANVERTACYJ_CYR = {
+CYR_TO_LAT_CONVERSION = {
     "а": "a",
     "э": "e",
     "ы": "y",
@@ -125,8 +126,8 @@ PRAVILY_KANVERTACYJ_CYR = {
     "ш": "š",
     "х": "ch",
 }
-STARYJA_PRAWILY_KANVERTACYJI = dict(PRAVILY_KANVERTACYJ_CYR)
-STARYJA_PRAWILY_KANVERTACYJI.update(
+OLD_CYR_TO_LAT_CONVERSION = dict(CYR_TO_LAT_CONVERSION)
+OLD_CYR_TO_LAT_CONVERSION.update(
     {
         "ч": "cz",
         "ш": "sz",
@@ -134,14 +135,14 @@ STARYJA_PRAWILY_KANVERTACYJI.update(
         "в": "w",
     }
 )
-JOTAWANYJA_LITARY = {
+IOTATED_VOVELS = {
     "е": "e",
     "ё": "o",
     "і": "",
     "ю": "u",
     "я": "a",
 }
-ZYCZNYJA_Z_TRANZITAM = (
+CONSONANTS_WITH_PALATALIZATION_TRANSIT = (
     "б",
     "в",
     "д",
@@ -160,13 +161,13 @@ ZYCZNYJA_Z_TRANZITAM = (
     "ч",
     "ш",
 )
-ZYCZNYJA_BIEZ_TRANZITU = ("г", "к", "х")
+CONSONANTS_WITHOUT_PALATALIZATION_TRANSIT = ("г", "к", "х")
 
 
 #
 # Лацінскія канстанты
 #
-PRAVILY_KANVERTACYJ_LAT = {
+LAT_TO_CYR_CONVERSION = {
     "y": "ы",
     "ŭ": "ў",
     "b": "б",
@@ -190,13 +191,13 @@ PRAVILY_KANVERTACYJ_LAT = {
     "s": "с",
 }
 
-HALOSNYJA_LAT = {
+LAT_VOVELS = {
     "e": "э",
     "u": "у",
     "o": "о",
     "a": "а",
 }
-ZYCZNYJA_DYHRAFY = {
+DIGRAPH_CONSONANTS = {
     "ch": "х",
     "sz": "ш",
     "cz": "ч",

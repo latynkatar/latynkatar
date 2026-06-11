@@ -2,7 +2,7 @@
 https://github.com/PAMYLKA-ZIN/pamylka-number-3/tree/main/PAMYLKA_ZIN_3_FOR_SHARING
 """
 
-PAMYLKA_KIRYLICA = """Вітаем цябе, чытачу!
+PAMYLKA_CYRRILIC = """Вітаем цябе, чытачу!
 Гэта трэці нумар PAMYŁKA ZIN!
 Мы вельмі цешымся, што да каманды стваральнікаў працягваюць далучацца
 новыя навукоўцы і мастакі! І мы будзем радыя кожнаму новаму ўдзельніку!
@@ -13,7 +13,7 @@ PAMYLKA_KIRYLICA = """Вітаем цябе, чытачу!
 навукова-папулярнага часопісу Pamyłka Zin.
 Больш дэталяў апавядае першы артыкул нумару.
 """
-PAMYLKA_LACINKA_CZESZSKAJA = """Vitajem ciabie, čytaču!
+PAMYLKA_CZECH_LATIN = """Vitajem ciabie, čytaču!
 Heta treci numar PAMYŁKA ZIN!
 My vielmi ciešymsia, što da kamandy stvaralnikaŭ praciahvajuć dałučacca
 novyja navukoŭcy i mastaki! I my budziem radyja kožnamu novamu ŭdzielniku!
@@ -24,7 +24,7 @@ biełaruskich navukoŭcaŭ i daślednikaŭ dakładnych i pryrodaznaŭčych navuk
 navukova-papularnaha časopisu Pamyłka Zin.
 Bolš detalaŭ apaviadaje pieršy artykuł numaru.
 """
-PAMYLKA_LACINKA_POLSKAJA = """Witajem ciabie, czytaczu!
+PAMYLKA_POLISH_LATIN = """Witajem ciabie, czytaczu!
 Heta treci numar PAMYŁKA ZIN!
 My wielmi cieszymsia, szto da kamandy stwaralnikaŭ praciahwajuć dałuczacca
 nowyja nawukoŭcy i mastaki! I my budziem radyja kożnamu nowamu ŭdzielniku!
