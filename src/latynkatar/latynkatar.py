@@ -18,10 +18,16 @@ You should have received a copy of the GNU Lesser General Public License v3
 :copyright: (c) 2025 Łatynkatar group: https://github.com/latynkatar
 """
 
+from debtcollector import removals
+
 from .converters.cyr_lat import CyrLatConverter
 from .converters.lat_cyr import LatCyrConverter
 
 
+@removals.remove(
+    removal_version="2.5.0",
+    message="Канвертацыя функцыямі замененая непасрэдным доступам да класаў-канвертараў і будзе выдаленая.",
+)
 def convert(text: str, miakkasc: bool = True) -> str:
     """Канвертуе з кірыліцы да сучаснай ("чэшскай") лацінкі. Усе літары і знакі, які не могуць
         лічыцца беларускай кірыліцай захоўваюцца без зменаў.
@@ -36,6 +42,10 @@ def convert(text: str, miakkasc: bool = True) -> str:
     return CyrLatConverter(text=text).convert(old_rules=False, palatalization=miakkasc)
 
 
+@removals.remove(
+    removal_version="2.5.0",
+    message="Канвертацыя функцыямі замененая непасрэдным доступам да класаў-канвертараў і будзе выдаленая.",
+)
 def convert_old(text: str, miakkasc: bool = True) -> str:
     """Канвертуе з кірыліцы да старой ("польскай") лацінкі. Усе літары і знакі, які не могуць
         лічыцца беларускай кірыліцай захоўваюцца без зменаў.
@@ -51,6 +61,10 @@ def convert_old(text: str, miakkasc: bool = True) -> str:
     return CyrLatConverter(text=text).convert(old_rules=True, palatalization=miakkasc)
 
 
+@removals.remove(
+    removal_version="2.5.0",
+    message="Канвертацыя функцыямі замененая непасрэдным доступам да класаў-канвертараў і будзе выдаленая.",
+)
 def convert_latin(text: str) -> str:
     """Канвертуе з лацінкі да кірыліцы. Усе літары і знакі, які не могуць
     лічыцца беларускай лацінкай захоўваюцца без зменаў.
