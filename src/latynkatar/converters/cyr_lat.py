@@ -19,13 +19,13 @@ You should have received a copy of the GNU Lesser General Public License v3
 """
 
 from ..const import (
-    HALOSNYJA_CYR,
-    JOTAWANYJA_LITARY,
-    KIRYLICZNY_ALFABET,
-    MOHUC_PAZNACZACCA_JAK_MIAKKIJA,
-    PRAVILY_KANVERTACYJ_CYR,
-    STARYJA_PRAWILY_KANVERTACYJI,
-    ZYCZNYJA_Z_TRANZITAM,
+    CONSONANTS_WITH_PALATALIZATION_TRANSIT,
+    CYR_TO_LAT_CONVERSION,
+    CYRRILIC_ALPHABET,
+    CYRRILIC_VOVELS,
+    IOTATED_VOVELS,
+    OLD_CYR_TO_LAT_CONVERSION,
+    PALATIZEABLE_CONSONANTS,
 )
 from .abs_converter import AbstractConverter
 
@@ -46,7 +46,7 @@ class CyrLatConverter(
         self._palatalization = False
         self._in_word_now = False
         self._previos_letters: list[str] = []
-        self._pravily_kanvertacyi: dict[str, str]
+        self._convertion_rules: dict[str, str]
         self._index: int
 
     def convert(self, old_rules: bool = False, palatalization: bool = False) -> str:
@@ -60,8 +60,8 @@ class CyrLatConverter(
         :rtype: str
         """
         self._old_rules = old_rules
-        self._pravily_kanvertacyi = (
-            STARYJA_PRAWILY_KANVERTACYJI if self._old_rules else PRAVILY_KANVERTACYJ_CYR
+        self._convertion_rules = (
+            OLD_CYR_TO_LAT_CONVERSION if self._old_rules else CYR_TO_LAT_CONVERSION
         )
         self._palatalization = palatalization
 
@@ -76,14 +76,14 @@ class CyrLatConverter(
         lowercase_letter = self._symbol.lower()
         converted_letter = ""
         match lowercase_letter:
-            case letter if letter in self._pravily_kanvertacyi:
-                converted_letter = self._pravily_kanvertacyi[lowercase_letter]
-            case letter if letter in MOHUC_PAZNACZACCA_JAK_MIAKKIJA:
-                converted_letter = self._kanvertavac_miakkija_zycznyja()
+            case letter if letter in self._convertion_rules:
+                converted_letter = self._convertion_rules[lowercase_letter]
+            case letter if letter in PALATIZEABLE_CONSONANTS:
+                converted_letter = self.__convert_palatalized_consonants()
             case letter if letter in ["'", "ь"]:
                 pass
-            case letter if letter in JOTAWANYJA_LITARY:
-                converted_letter = self._kanvertavac_jotavanyja()
+            case letter if letter in IOTATED_VOVELS:
+                converted_letter = self._convert_iotated()
 
         return (
             converted_letter
@@ -91,18 +91,18 @@ class CyrLatConverter(
             else converted_letter.capitalize()
         )
 
-    def _ci_patrabuje_adlustravannia_tranzityunaj_miakkasci(self) -> bool:
+    def _does_it_need_palatalization_transit(self) -> bool:
         """Правярае, ці патрабуе пазіцыя зычнай адлюстравання транзітыўнай мяккасці.
 
         :return: True, калі патрабуе
         :rtype: bool
         """
-        return self._next_symbol.lower() in ZYCZNYJA_Z_TRANZITAM and (
-            self._second_next_symbol.lower() in JOTAWANYJA_LITARY
+        return self._next_symbol.lower() in CONSONANTS_WITH_PALATALIZATION_TRANSIT and (
+            self._second_next_symbol.lower() in IOTATED_VOVELS
             or self._second_next_symbol.lower() == "ь"
         )
 
-    def _ci_patrabuje_j(self) -> bool:
+    def _should_there_be_j(self) -> bool:
         """Спраўджае, ці патрэбная пры канвертацыі ётаваных j.
 
         :return: True, калі патрабуе
@@ -110,23 +110,23 @@ class CyrLatConverter(
         """
         return (
             not self._previos_letters
-            or self._previos_letters[-1].lower() in HALOSNYJA_CYR
+            or self._previos_letters[-1].lower() in CYRRILIC_VOVELS
             or self._previos_letters[-1].lower() in ("'", "ь")
             or self._previos_letters[-1].lower() == "ł"
         )
 
-    def _kanvertavac_jotavanyja(self) -> str:
+    def _convert_iotated(self) -> str:
         """Канвертуе ў лацінку літары з j/i: і, е, ё, ю, я.
 
         :return: Сканвертаваную да лацінкі літару. Вынікам часам можа быць некалькі літар.
         :rtype: str
         """
-        if self._ci_patrabuje_j() and self._symbol.lower() != "і":
+        if self._should_there_be_j() and self._symbol.lower() != "і":
             base = "j"
         else:
             base = "i"
 
-        second_letter = JOTAWANYJA_LITARY[self._symbol.lower()]
+        second_letter = IOTATED_VOVELS[self._symbol.lower()]
         if (
             self._symbol.lower() != "і"
             and self._previos_letters
@@ -138,13 +138,13 @@ class CyrLatConverter(
 
         return converted_letter
 
-    def _kanvertavac_miakkija_zycznyja(self) -> str:
+    def __convert_palatalized_consonants(self) -> str:
         """Канвертуе да лацінкі зычныя, якія могуць быць мяккімі.
 
         :return: Вынік канвертацыі
         :rtype: str
         """
-        hard, soft = MOHUC_PAZNACZACCA_JAK_MIAKKIJA[self._symbol.lower()]
+        hard, soft = PALATIZEABLE_CONSONANTS[self._symbol.lower()]
         converted_letter = ""
         match True:
             case results if results == (self._next_symbol.lower() == "ь"):
@@ -152,20 +152,20 @@ class CyrLatConverter(
 
             case results if results == (
                 self._symbol.lower() == "л"
-                and self._next_symbol.lower() in JOTAWANYJA_LITARY
+                and self._next_symbol.lower() in IOTATED_VOVELS
             ):
                 converted_letter = soft
             case results if results == (
                 self._symbol.lower() == self._next_symbol.lower() == "л"
                 and (
-                    self._second_next_symbol.lower() in JOTAWANYJA_LITARY
+                    self._second_next_symbol.lower() in IOTATED_VOVELS
                     or self._second_next_symbol.lower() == "ь"
                 )
             ):
                 converted_letter = soft
             case results if results == (
                 self._palatalization
-                and self._ci_patrabuje_adlustravannia_tranzityunaj_miakkasci()
+                and self._does_it_need_palatalization_transit()
                 and not (self._symbol == "н" and self._next_symbol == "ц")
             ):
                 converted_letter = soft
@@ -181,4 +181,4 @@ class CyrLatConverter(
         :return: Спіс сімвалаў
         :rtype: list[str]
         """
-        return KIRYLICZNY_ALFABET
+        return CYRRILIC_ALPHABET

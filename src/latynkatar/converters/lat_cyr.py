@@ -19,12 +19,12 @@ You should have received a copy of the GNU Lesser General Public License v3
 """
 
 from ..const import (
-    HALOSNYJA_LAT,
-    JOTAWANYJA_LITARY,
-    LACINSKI_ALFABET,
-    MOHUC_PAZNACZACCA_JAK_MIAKKIJA,
-    PRAVILY_KANVERTACYJ_LAT,
-    ZYCZNYJA_DYHRAFY,
+    DIGRAPH_CONSONANTS,
+    IOTATED_VOVELS,
+    LAT_TO_CYR_CONVERSION,
+    LAT_VOVELS,
+    LATIN_ALPHABET,
+    PALATIZEABLE_CONSONANTS,
 )
 from .abs_converter import AbstractConverter
 
@@ -43,7 +43,7 @@ class LatCyrConverter(
         self._len = len(self._text)
         self._in_word_now = False
         self._previos_letters: list[str] = []
-        self._pravily_kanvertacyi: dict[str, str] = PRAVILY_KANVERTACYJ_LAT
+        self._convertion_rules: dict[str, str] = LAT_TO_CYR_CONVERSION
         self._index: int
 
     def _convert_letter(self) -> str:  # pylint: disable=too-many-branches
@@ -56,32 +56,30 @@ class LatCyrConverter(
         converted_letter = ""
         skip_one = False
         match lowercase_letter:
-            case letter if letter + self._next_symbol.lower() in ZYCZNYJA_DYHRAFY:
+            case letter if letter + self._next_symbol.lower() in DIGRAPH_CONSONANTS:
                 if (
                     self._previos_letters
                     and self._previos_letters[-1].lower() == "l"
                     and letter == "j"
                 ):
                     converted_letter += "ь"
-                converted_letter += ZYCZNYJA_DYHRAFY[letter + self._next_symbol.lower()]
+                converted_letter += DIGRAPH_CONSONANTS[
+                    letter + self._next_symbol.lower()
+                ]
                 skip_one = True
-            case letter if letter in self._pravily_kanvertacyi:
-                converted_letter = self._pravily_kanvertacyi[lowercase_letter]
-            case letter if [
-                x for x in MOHUC_PAZNACZACCA_JAK_MIAKKIJA.values() if letter in x
-            ]:
-                converted_letter = self._convert_miakkija_zycznyja()
+            case letter if letter in self._convertion_rules:
+                converted_letter = self._convertion_rules[lowercase_letter]
+            case letter if [x for x in PALATIZEABLE_CONSONANTS.values() if letter in x]:
+                converted_letter = self._convert_palatalized_consonants()
             case letter if letter in ("i", "j"):
-                converted_letter, skip_one = self._convert_jotavanyja()
-            case letter if letter in HALOSNYJA_LAT:
+                converted_letter, skip_one = self._convert_iotated()
+            case letter if letter in LAT_VOVELS:
                 if self._previos_letters and self._previos_letters[-1].lower() == "l":
                     converted_letter = [
-                        key
-                        for key, value in JOTAWANYJA_LITARY.items()
-                        if letter == value
+                        key for key, value in IOTATED_VOVELS.items() if letter == value
                     ][0]
                 else:
-                    converted_letter = HALOSNYJA_LAT[letter]
+                    converted_letter = LAT_VOVELS[letter]
 
         converted_results = (
             converted_letter
@@ -94,7 +92,7 @@ class LatCyrConverter(
 
         return converted_results
 
-    def _convert_miakkija_zycznyja(self) -> str:
+    def _convert_palatalized_consonants(self) -> str:
         """Канвертуе зычныя, што могуць змякчацца.
 
         :return: вынік канвертацыі
@@ -105,13 +103,13 @@ class LatCyrConverter(
             converted_letter = "л"
             if self._symbol.lower() == "l" and not (
                 self._next_symbol.lower() in ("i", "j")
-                or self._next_symbol.lower() in HALOSNYJA_LAT
+                or self._next_symbol.lower() in LAT_VOVELS
             ):
                 converted_letter += "ь"
         else:
             key, values = [
                 (index, value)
-                for index, value in MOHUC_PAZNACZACCA_JAK_MIAKKIJA.items()
+                for index, value in PALATIZEABLE_CONSONANTS.items()
                 if self._symbol.lower() in value
             ][0]
             converted_letter += key
@@ -121,7 +119,7 @@ class LatCyrConverter(
 
         return converted_letter
 
-    def _convert_jotavanyja(self) -> tuple[str, bool]:
+    def _convert_iotated(self) -> tuple[str, bool]:
         """Канвертуе ётаваныя літары да кірыліцы.
 
         :return: вынік канвертацыі (літара  ці некалькі, ці трэба мінаць наступную)
@@ -133,7 +131,7 @@ class LatCyrConverter(
         if self._previos_letters and self._previos_letters[-1].lower() == "ł":
             converted_letter += "'"
 
-        if self._next_symbol.lower() in HALOSNYJA_LAT:
+        if self._next_symbol.lower() in LAT_VOVELS:
             if (
                 self._previos_letters
                 and self._previos_letters[-1].lower() == "l"
@@ -143,7 +141,7 @@ class LatCyrConverter(
 
             converted_letter += [
                 key
-                for key, value in JOTAWANYJA_LITARY.items()
+                for key, value in IOTATED_VOVELS.items()
                 if value == self._next_symbol.lower()
             ][0]
             skip_one = True
@@ -160,4 +158,4 @@ class LatCyrConverter(
         :return: Спіс сімвалаў
         :rtype: list[str]
         """
-        return LACINSKI_ALFABET
+        return LATIN_ALPHABET
