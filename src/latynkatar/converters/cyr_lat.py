@@ -90,11 +90,26 @@ class CyrLatConverter(
     def _letter_in_proper_register(self, converted_letter: str) -> str:
         proper_state = converted_letter
         if self._symbol.isupper():
-            if (self._next_symbol and self._next_symbol.isupper()) or (
-                self._previos_letters and self._previos_letters[-1].isupper()
+            # Калі бягучая літара вялікая
+            if (
+                # Калі наступны сімвал таксама беларуская літара і гэтая ступрная літара вялікая
+                self._next_symbol
+                and self._next_symbol.lower() in CYRRILIC_ALPHABET
+                and self._next_symbol.isupper()
+            ) or (
+                # Ці наступны сімвал гэта не літара або наступнага сімвала няма
+                (
+                    not self._next_symbol
+                    or self._next_symbol.lower() not in CYRRILIC_ALPHABET
+                )
+                # І папярэдняя літара таксама вялікая
+                and self._previos_letters
+                and self._previos_letters[-1].isupper()
             ):
+                # Тады ўсе лацінскія літары мусяць быць вялікімі
                 proper_state = proper_state.upper()
             else:
+                # Інакш толькі першая
                 proper_state = proper_state.capitalize()
 
         return proper_state

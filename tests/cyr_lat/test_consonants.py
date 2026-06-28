@@ -19,7 +19,7 @@ def test_ch():
     """Тэст карнвертацыі х."""
     assert (
         latynkatar.CyrLatConverter("ХаХу ХЫВАХххххх Хіх").convert()
-        == "ChaChu ChYVAChchchchchch Chich"
+        == "ChaChu CHYVAChchchchchch Chich"
     )
 
 
@@ -38,7 +38,7 @@ def test_š():  # pylint: disable=non-ascii-name
 
 def test_cz():
     """Тэст канвертацыі ч да старога набора сімвалаў."""
-    assert latynkatar.CyrLatConverter("чАЧыЧУ").convert(old_rules=True) == "czACzyCzU"
+    assert latynkatar.CyrLatConverter("чАЧыЧУ").convert(old_rules=True) == "czACzyCZU"
 
 
 def test_č():  # pylint: disable=non-ascii-name
