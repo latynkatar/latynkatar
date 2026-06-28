@@ -135,8 +135,7 @@ class CyrLatConverter(
         return (
             not self._previos_letters
             or self._previos_letters[-1].lower() in CYRRILIC_VOVELS
-            or self._previos_letters[-1].lower() in ("'", "ь")
-            or self._previos_letters[-1].lower() == "ł"
+            or self._previos_letters[-1].lower() in ("'", "ь", "ў")
         )
 
     def _convert_iotated(self) -> str:

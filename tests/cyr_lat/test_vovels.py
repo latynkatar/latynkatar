@@ -25,6 +25,11 @@ def test_ja():
     )
 
 
+def test_jotavanyja_pa_u_nieskladovyn():
+    """Тест на канвертацыю ётаваных па ў."""
+    assert latynkatar.CyrLatConverter("здароўе ШЧАЎЯ").convert() == "zdaroŭje ŠČAŬJA"
+
+
 def test_vialikija_litary():
     """Тест на розныя спалучэнні вялікіх і малых літар."""
     assert (
