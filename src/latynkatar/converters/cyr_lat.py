@@ -169,7 +169,9 @@ class CyrLatConverter(
         ):
             second_letter = "i"
 
-        converted_letter = base + second_letter
+        converted_letter = (
+            base + second_letter if base != second_letter else second_letter
+        )
 
         return converted_letter
 
