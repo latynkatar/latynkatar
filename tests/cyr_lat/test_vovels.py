@@ -23,3 +23,11 @@ def test_ja():
         latynkatar.CyrLatConverter("Яз'яваЗЯпазЬяВА").convert(palatalization=True)
         == "JazjavaZIapaźjaVA"
     )
+
+
+def test_vialikija_litary():
+    """Тест на розныя спалучэнні вялікіх і малых літар."""
+    assert (
+        latynkatar.CyrLatConverter("Хлеб дзень МЯСА РЫБА І Ё Сваякі СМЯТАНА").convert()
+        == "Chleb dzień MIASA RYBA I Jo Svajaki SMIATANA"
+    )
