@@ -150,3 +150,9 @@ def install_precommit(session):
         "post-checkout",
         external=True,
     )
+
+
+@nox.session
+def compile_readme_in_markdown(session):
+    """Кампілюе з README.adoc файл README ў фармаце Markdown."""
+    session.run("uvx", "--from", "Pydowndoc-bin", "--", "downdoc", "README.adoc")

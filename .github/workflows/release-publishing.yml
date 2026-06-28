@@ -15,7 +15,7 @@ jobs:
     
     steps:
     
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
       with:
         fetch-depth: 0
     - run: git checkout ${{github.sha}} 
@@ -25,9 +25,9 @@ jobs:
       with:
         python-version: 3.14
     - name: Install uv
-      uses: astral-sh/setup-uv@v6
+      uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
 
-    - run: uv sync --no-editable
+    - run: uv sync --dev --no-editable
 
     - name: Set version for the release tag
       run: uv run nox -s set_version -- ${{github.ref}}
@@ -38,11 +38,14 @@ jobs:
     - name: Remove files I don't want in build
       run: rm -rf tests/ .github/ noxfile.pl .envrc .gitignore uv.lock
 
+    - name: Generate README.md
+      run: uv run nox -s compile_readme_in_markdown
+
     - name: Build the package
       run: uv build
 
     - name: Collect builded package
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: packages
         path: dist/*
@@ -59,16 +62,16 @@ jobs:
 
     steps:
     - name: Get tests and tests only
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
       with:
         sparse-checkout: |
           tests
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v6
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install uv
-      uses: astral-sh/setup-uv@v5
+      uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b
 
     - uses: actions/download-artifact@v4
       with:
@@ -85,14 +88,14 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
     - name: Set up Python 3.14
       uses: actions/setup-python@v6
       with:
         python-version: 3.14
     - name: Install uv
-      uses: astral-sh/setup-uv@v6
-    - uses: actions/download-artifact@v5
+      uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+    - uses: actions/download-artifact@v8
       with:
         name: packages
         path: dist
@@ -107,7 +110,7 @@ jobs:
 
     steps:
       - name: Obtain artifacts
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v8
         with:
           name: packages
           path: dist
