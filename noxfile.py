@@ -97,12 +97,13 @@ def pytest(session):
 
 @nox.session()
 def package_pytest(session):
-    """Юніттэсты з pytest на сабраным пакеце."""
+    """Юніттэсты з pytest на сабраным пакеце. Для CI."""
     if os.getenv("IS_THIS_A_PACKAGE_TEST") == "true":
         files = list(glob.glob("dist/*.whl"))
         if len(files) != 1:
             raise EnvironmentError(f"Found more then one WHL file in dist: {files}")
         session.install(files[0])
+    session.install("pytest", "pytest-html")
     session.run(
         "python3",
         "-m",
