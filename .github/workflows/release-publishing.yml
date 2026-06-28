@@ -27,7 +27,7 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
 
-    - run: uv sync --no-editable
+    - run: uv sync --dev --no-editable
 
     - name: Set version for the release tag
       run: uv run nox -s set_version -- ${{github.ref}}
@@ -39,7 +39,7 @@ jobs:
       run: rm -rf tests/ .github/ noxfile.pl .envrc .gitignore uv.lock
 
     - name: Generate README.md
-      run: nox -s compile_readme_in_markdown
+      run: uv run nox -s compile_readme_in_markdown
 
     - name: Build the package
       run: uv build
