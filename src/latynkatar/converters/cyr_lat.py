@@ -146,6 +146,12 @@ class CyrLatConverter(
         """
         if self._should_there_be_j() and self._symbol.lower() != "і":
             base = "j"
+        elif (
+            self._symbol.lower() == "і"
+            and self._previos_letters
+            and self._previos_letters[-1].lower() == "'"
+        ):
+            base = "j"
         else:
             base = "i"
 
@@ -156,8 +162,16 @@ class CyrLatConverter(
             and self._previos_letters[-1].lower() == "л"
         ):
             base = ""
+        if (
+            self._symbol.lower() == "і"
+            and self._previos_letters
+            and self._previos_letters[-1]
+        ):
+            second_letter = "i"
 
-        converted_letter = base + second_letter
+        converted_letter = (
+            base + second_letter if base != second_letter else second_letter
+        )
 
         return converted_letter
 

@@ -30,6 +30,13 @@ def test_jotavanyja_pa_u_nieskladovyn():
     assert latynkatar.CyrLatConverter("здароўе ШЧАЎЯ").convert() == "zdaroŭje ŠČAŬJA"
 
 
+def test_i_pa_apostrafe():
+    """Тэст на напісанне і пасля апострафа."""
+    assert (
+        latynkatar.CyrLatConverter("падвор'і вераб'і").convert() == "padvorji vierabji"
+    )
+
+
 def test_vialikija_litary():
     """Тест на розныя спалучэнні вялікіх і малых літар."""
     assert (
