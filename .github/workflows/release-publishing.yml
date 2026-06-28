@@ -78,7 +78,7 @@ jobs:
     - name: Update uv environment
       run: uv sync --no-editable
     - name: Test build package
-      run: uv run nox -s pytest
+      run: uv run nox -s package_pytest
 
   upload-to-pypi:
     needs: test-the-package
