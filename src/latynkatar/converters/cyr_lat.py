@@ -85,12 +85,21 @@ class CyrLatConverter(
             case letter if letter in IOTATED_VOVELS:
                 converted_letter = self._convert_iotated()
 
-        return (
-            converted_letter
-            if self._symbol.islower()
-            else converted_letter.capitalize()
-        )
+        return self._letter_in_proper_register(converted_letter)
 
+    def _letter_in_proper_register(self, converted_letter: str) -> str:
+        proper_state = converted_letter
+        if self._symbol.isupper():
+            if (self._next_symbol and self._next_symbol.isupper()) or (
+                self._previos_letters and self._previos_letters[-1].isupper()
+            ):
+                proper_state = proper_state.upper()
+            else:
+                proper_state = proper_state.capitalize()
+
+        return proper_state
+
+    @property
     def _does_it_need_palatalization_transit(self) -> bool:
         """Правярае, ці патрабуе пазіцыя зычнай адлюстравання транзітыўнай мяккасці.
 
@@ -165,7 +174,7 @@ class CyrLatConverter(
                 converted_letter = soft
             case results if results == (
                 self._palatalization
-                and self._does_it_need_palatalization_transit()
+                and self._does_it_need_palatalization_transit
                 and not (self._symbol == "н" and self._next_symbol == "ц")
             ):
                 converted_letter = soft
