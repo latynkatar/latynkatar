@@ -7,11 +7,23 @@ except ModuleNotFoundError:
     from src import latynkatar
 
 
+def test_miakkija():
+    """Тест на канвертацыю зычных, якія могуць пазначацца як мяккія"""
+    assert latynkatar.CyrLatConverter("ЛьнСьзьцслНьЗць").convert() == "LnŚźcsłŃZć"
+
+
+def test_d():
+    """Тэст на канвертацыю д"""
+    assert latynkatar.CyrLatConverter("ДадодУДўДЭ").convert() == "DadodUDŭDE"
+
+
 def test_l():
     """Тэст канвертацыі да пары l/ł."""
     assert (
-        latynkatar.CyrLatConverter("ЛаЭлЯЛуЛіЛюЛЁлЕлЬ лЛя").convert()
-        == "ŁaElAŁuLiLuLOlEl lLa"
+        latynkatar.CyrLatConverter(
+            "ЛаЭлЯЛуЛіЛюЛЁлЕлЬ лЛя надумалі ЛюЛ'іЛіюлье"
+        ).convert()
+        == "ŁaElAŁuLiLuLOlEl lLa nadumali LuŁjiLijulje"
     )
 
 
