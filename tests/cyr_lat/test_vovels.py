@@ -33,7 +33,8 @@ def test_jotavanyja_pa_u_nieskladovyn():
 def test_i_pa_apostrafe():
     """Тэст на напісанне і пасля апострафа."""
     assert (
-        latynkatar.CyrLatConverter("падвор'і вераб'і").convert() == "padvorji vierabji"
+        latynkatar.CyrLatConverter("падвор'і вераб'і вераб'іны").convert()
+        == "padvorji vierabji vierabjiny"
     )
 
 
