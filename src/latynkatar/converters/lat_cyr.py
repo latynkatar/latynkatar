@@ -131,7 +131,12 @@ class LatCyrConverter(
         if self._previos_letters and self._previos_letters[-1].lower() == "ł":
             converted_letter += "'"
 
-        if self._next_symbol.lower() in LAT_VOVELS:
+        if self._symbol.lower() == "j" and self._next_symbol.lower() == "i":
+            converted_letter += (
+                "і" if converted_letter and converted_letter[-1] == "'" else "'і"
+            )
+            skip_one = True
+        elif self._next_symbol.lower() in LAT_VOVELS:
             if (
                 self._previos_letters
                 and self._previos_letters[-1].lower() == "l"
