@@ -16,6 +16,11 @@ from tests.data.bahdanovicz import (
     BAHDANOVICZ_CZECH_LATIN,
     BAHDANOVICZ_POLISH_LATIN,
 )
+from tests.data.bahuszevicz import (
+    VERABIEJ_I_KASZA_CYRRILIC,
+    VIERABIEJ_I_KASZA_CZECH_LATIN,
+    VIERABIEJ_I_KASZA_POLISH_LATIN,
+)
 from tests.data.pamylka import (
     PAMYLKA_CYRRILIC,
     PAMYLKA_CZECH_LATIN,
@@ -63,6 +68,22 @@ def test_bahdanovicz_stary():
             old_rules=True, palatalization=True
         )
         == BAHDANOVICZ_POLISH_LATIN
+    )
+
+
+def test_verabiej_i_kasza():
+    """Тэст на канвертацыю верша Багушэвіча."""
+    assert (
+        latynkatar.CyrLatConverter(VERABIEJ_I_KASZA_CYRRILIC).convert()
+        == VIERABIEJ_I_KASZA_CZECH_LATIN
+    )
+
+
+def test_verabiej_i_kasza_stary():
+    """Тэст на канвертацыю верша Багушэвіча да старой (польскай) лацінкі."""
+    assert (
+        latynkatar.CyrLatConverter(VERABIEJ_I_KASZA_CYRRILIC).convert(old_rules=True)
+        == VIERABIEJ_I_KASZA_POLISH_LATIN
     )
 
 

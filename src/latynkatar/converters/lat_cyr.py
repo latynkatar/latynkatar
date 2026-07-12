@@ -116,7 +116,6 @@ class LatCyrConverter(
             _, miakki = values
             if self._symbol.lower() == miakki:
                 converted_letter += "ь"
-
         return converted_letter
 
     def _convert_iotated(self) -> tuple[str, bool]:
@@ -128,10 +127,21 @@ class LatCyrConverter(
         converted_letter = ""
         skip_one = False
 
-        if self._previos_letters and self._previos_letters[-1].lower() == "ł":
+        if (
+            self._symbol.lower() == "j"
+            and self._previos_letters
+            and (
+                self._previos_letters[-1].lower() != "l"
+                and self._previos_letters[-1].lower() not in LAT_VOVELS
+                and self._previos_letters[-1].lower() not in ("i", "ŭ", "y")
+            )
+        ):
             converted_letter += "'"
 
-        if self._next_symbol.lower() in LAT_VOVELS:
+        if self._symbol.lower() == "j" and self._next_symbol.lower() == "i":
+            converted_letter += "і"
+            skip_one = True
+        elif self._next_symbol.lower() in LAT_VOVELS:
             if (
                 self._previos_letters
                 and self._previos_letters[-1].lower() == "l"
